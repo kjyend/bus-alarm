@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <title>home</title>
+</head>
+<body>
+<div class="navbar navbar-dark bg-dark">
+    <div class="container-md">
+        <a class="navbar-brand" th:onclick="|location.href='@{/}'|">running</a>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary" th:onclick="|location.href='@{/signup}'|" type="submit">Sign up</button>
+            <button class="btn btn-primary" th:onclick="|location.href='@{/login}'|" type="submit">sign in</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,17 +1,20 @@
 package cooperation.bus.domain.service;
 
 import cooperation.bus.domain.dto.MemberDto;
-import cooperation.bus.domain.entity.Member;
 import cooperation.bus.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-public class LoginService {
+public class MemberService {
+
     private final MemberRepository memberRepository;
 
-    public MemberDto login(String loginId, String password){
-        return (MemberDto) memberRepository.findByLoginIdLike(loginId).stream().filter(m->m.getPassword().equals(password));
+    public void save(MemberDto memberDto){
+
     }
+
 }

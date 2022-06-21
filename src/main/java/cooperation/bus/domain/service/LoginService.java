@@ -1,7 +1,6 @@
 package cooperation.bus.domain.service;
 
 import cooperation.bus.domain.dto.MemberDto;
-import cooperation.bus.domain.entity.Member;
 import cooperation.bus.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

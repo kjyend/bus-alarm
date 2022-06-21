@@ -1,21 +1,38 @@
 package cooperation.bus.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import cooperation.bus.domain.entity.Member;
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 @Getter
 public class MemberDto {
+    @JsonIgnore
+    private Long id;
+
     private String loginId;
     private String password;
     private String name;
     private String dob;
 
-    public MemberDto() {
+
+    public MemberDto toMemberDto(Member member) {
+        return MemberDto.builder()
+                .id(member.getId())
+                .loginId(member.getLoginId())
+                .password(member.getPassword())
+                .name(member.getName())
+                .dob(member.getDob()).build();
     }
 
-    public MemberDto(String loginId, String password, String name, String dob) {
-        this.loginId = loginId;
-        this.password = password;
-        this.name = name;
-        this.dob = dob;
+    public Member toMemberEntity(MemberDto memberDto){
+        return Member.builder()
+                .id(memberDto.getId())
+                .loginId(memberDto.getLoginId())
+                .password(memberDto.getPassword())
+                .name(memberDto.getName())
+                .dob(memberDto.getDob()).build();
     }
+
 }

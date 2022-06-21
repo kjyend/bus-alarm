@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
     List<Member> findByLoginIdLike(String loginId);
+
 }

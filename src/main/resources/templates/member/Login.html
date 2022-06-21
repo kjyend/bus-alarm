@@ -4,8 +4,58 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <title>Login</title>
+    <style>
+        body{
+            margin-top: 150px;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .form-signin{
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+        .form-signin input[type="email"]{
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        .margin-button{
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-
+<div class="container">
+    <form class="form-signin" action="" th:object="${memberDto}" method="post">
+        <div>
+            <label for="loginId" class="form-label"></label>
+            <input type="email" class="form-control"  id="loginId" th:field="*{loginId}" aria-describedby="emailHelp" placeholder="id">
+        </div>
+        <div>
+            <label for="password" class="form-label"></label>
+            <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="password" th:errorclass="field-error">
+            <div class="field-error" th:error="*{password}"/>
+        </div>
+        <div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">sign-in</button>
+        </div>
+        <div class="margin-button">
+            <button class="w-100 btn btn-secondary btn-lg" onclick="location.href='home.html'"
+                    th:onclick="|location.href='@{/}'|" type="button">취소</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>

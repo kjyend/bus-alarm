@@ -1,7 +1,6 @@
 package cooperation.bus.web.argumentresolver;
 
 import cooperation.bus.domain.dto.MemberDto;
-import cooperation.bus.domain.entity.Member;
 import cooperation.bus.web.SessionConst;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -17,7 +16,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public boolean supportsParameter(MethodParameter parameter) {
 
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
-        boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
+        boolean hasMemberType = MemberDto.class.isAssignableFrom(parameter.getParameterType()); //같은 타입인지 체크
         return hasLoginAnnotation && hasMemberType;
     }
 

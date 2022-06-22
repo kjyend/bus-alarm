@@ -9,7 +9,6 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@Setter
 public class Area {
     @Id @GeneratedValue
     private Long id;

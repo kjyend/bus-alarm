@@ -28,7 +28,6 @@ public class MemberDto {
 
     public Member toMemberEntity(MemberDto memberDto){
         return Member.builder()
-                .id(memberDto.getId())
                 .loginId(memberDto.getLoginId())
                 .password(memberDto.getPassword())
                 .name(memberDto.getName())

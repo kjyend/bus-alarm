@@ -9,7 +9,6 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@Setter
 public class Bus {
     @Id @GeneratedValue
     private Long id;

@@ -19,7 +19,6 @@ public class MemberDto {
 
     public MemberDto toMemberDto(Member member) {
         return MemberDto.builder()
-                .id(member.getId())
                 .loginId(member.getLoginId())
                 .password(member.getPassword())
                 .name(member.getName())

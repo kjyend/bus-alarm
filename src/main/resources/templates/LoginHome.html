@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <title>LoginHome</title>
+    <style>
+        .button-mid{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    </style>
 </head>
 <body>
 <div class="navbar navbar-dark bg-dark">
     <div class="container-md">
-        <a class="navbar-brand" th:onclick="|location.href='@{/}'|">running</a>
+        <a class="navbar-brand" th:onclick="|location.href='@{/}'|">Bus</a>
         <form th:action="@{/logout}" method="post">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-primary" th:onclick="|location.href='login.html'|" type="submit">sign out</button>
@@ -16,6 +24,9 @@
         </form>
     </div>
 </div>
-
+<div class="button-mid">
+    <button class=" btn btn-primary" th:onclick="|location.href='@{/bus}'|" type="button">실시간 버스 위치</button>
+    <button class=" btn btn-primary " th:onclick="|location.href='@{/area}'|" type="button">버스 번호 설정하기</button>
+</div>
 </body>
 </html>

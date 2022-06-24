@@ -4,13 +4,9 @@ import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.entity.Member;
 import cooperation.bus.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 
-
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoginService {

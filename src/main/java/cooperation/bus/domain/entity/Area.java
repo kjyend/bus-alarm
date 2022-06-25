@@ -8,10 +8,10 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-public class Area {
+public class Area {//일단은 노선 id, 노선 번호
     @Id @GeneratedValue
     private Long id;
     private String tx;
     private String ty;
-    //api에서 위치를 보고 넣어야한다.
+    //x,y를 넣고 정류소Id를 뺀다. 정류소Id를 넣고 노선목록과, 노선Id를 뺀다
 }

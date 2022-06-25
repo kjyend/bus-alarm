@@ -8,6 +8,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class MemberDto {
+
     @JsonIgnore
     private Long id;
 

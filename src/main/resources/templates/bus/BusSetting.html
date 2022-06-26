@@ -5,11 +5,15 @@
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <title>Setting</title>
     <style>
+        .top-side{
+            z-index: 3;
+        }
         .button-mid{
             position: absolute;
             top: 85%;
             left: 50%;
             transform: translate(-50%,-50%);
+            z-index: 3;
         }
         .map-mid{
             position: absolute;
@@ -18,6 +22,7 @@
             width:80%;
             height:450px;
             transform: translate(0%,-65%);
+            z-index: 2;
         }
         .check-mid{
             position: absolute;
@@ -29,7 +34,7 @@
 </head>
 <body>
 
-<div class="navbar navbar-dark bg-dark">
+<div class="navbar navbar-dark bg-dark top-side">
     <div class="container-md">
         <a class="navbar-brand" th:onclick="|location.href='@{/}'|">Bus</a>
         <form th:action="@{/logout}" method="post">
@@ -55,6 +60,7 @@
 
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    // 지도를 클릭하면 정류장에 마크 표시가 나와야한다. 마크를 클릭하면 id값이나 다른값이 나와야한다.
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 
         // 클릭한 위도, 경도 정보를 가져옵니다

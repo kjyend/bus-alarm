@@ -1,10 +1,14 @@
 package cooperation.bus.web.controller;
 
+import cooperation.bus.domain.dto.AreaDto;
+import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.AreaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,13 +25,19 @@ public class AreaController {
     private final AreaService areaService;
 
     @GetMapping("area")//다른값을 뽑아낸다. 버스의 번호를 저장하는게 목표이다.
-    public String areaForm() throws IOException {
-        busApi();
-        busStation();
+    public String areaForm(AreaDto areaDto, Model model)  {
+        model.addAttribute("area",areaDto);
         return "bus/BusSetting";
     }
 
-    public StringBuilder busStation() throws IOException{//정류장 위치 확인 x,y값을 넣어서 다양한 값들얻는다, x,y값을 넣어서 정류소Id를 빼넨다.
+    @PostMapping("area")
+    public String areaData(AreaDto areaDto) throws IOException {
+        busStation(areaDto);
+        return "redirect:";
+    }
+
+    public String busStation(AreaDto areaDto) throws IOException{//주변정류소 목록조회
+        //정류장 위치 확인 x,y값을 넣어서 다양한 값들얻는다, x,y값을 넣어서 정류소Id를 빼넨다.
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busstationservice/getBusStationAroundList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("x","UTF-8") + "=" + URLEncoder.encode("127.0284667", "UTF-8")); /*X 좌표(WGS84)*/
@@ -51,10 +61,10 @@ public class AreaController {
         rd.close();
         conn.disconnect();
         System.out.println(sb.toString());
-        return sb;
+        return "정류소 ID를 넣기";
     }
 
-    public StringBuilder busApi()throws IOException {// 정류소경유노선 목록조회 (정확히 몇번 버스로 설정할것인지 판단+ 지도를 찍어서 주변 정류소+지나는 버스값을 얻는다.)
+    public String busApi()throws IOException {// 정류소경유노선 목록조회 (정확히 몇번 버스로 설정할것인지 판단+ 지도를 찍어서 주변 정류소+지나는 버스값을 얻는다.)
         //정류소Id를 가지고 노선 목록과 노선 아이디를 보넨다.
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busstationservice/getBusStationViaRouteList"); /*URL*/
@@ -81,6 +91,8 @@ public class AreaController {
         }
         rd.close();
         conn.disconnect();
-        return sb; //sb값이 xml값이다.
+        return "노선 ID넣는다."; //sb값이 xml값이다.
     }
+
+
 }

@@ -8,6 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +31,7 @@ import java.net.URLEncoder;
 public class BusController {
     //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
     @GetMapping("bus")//값을 보내야한다. 아두이노로
-    public String areaForm(BusDto busDto, AreaDto areaDto, Model model) throws IOException {
+    public String areaForm(BusDto busDto, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         model.addAttribute("bus",busDto);
         busLiveApi();//areaDto로 원래가지고 있던 정보를 주어야한다. 그리고 busdto를 넣어서 각종아이디를 넣어야한다.
         busLive();
@@ -32,7 +42,7 @@ public class BusController {
         return "redirect:";
     }
 
-    public String busLiveApi() throws IOException {// 실시간 버스 위치 +노선도+json을 아두이노한테 보내주어야 한다.(버스 위치정보 조회-실시간으로 버스위치 알수있다.)
+    public String busLiveApi() throws IOException, ParserConfigurationException, SAXException {// 실시간 버스 위치 +노선도+json을 아두이노한테 보내주어야 한다.(버스 위치정보 조회-실시간으로 버스위치 알수있다.)
         //노선 id를 넣고 버스위치 정보 목록을 살펴야한다.
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/buslocationservice/getBusLocationList"); /*URL*/
@@ -56,7 +66,50 @@ public class BusController {
         }
         rd.close();
         conn.disconnect();
-        log.info("member={}",sb);
+        log.info("men={}",sb);
+        //빌더 팩토리 생성
+        DocumentBuilderFactory builderFactory=DocumentBuilderFactory.newInstance();
+
+        //빌더 팩토리로부터 빌더 생성
+        DocumentBuilder builder=builderFactory.newDocumentBuilder();
+
+        //빌더를 통해 xml 문서를 파싱해서 Document 객체로 가져온다.
+        Document document=builder.parse(String.valueOf(url));
+
+        // 문서 구조 안정화
+        document.getDocumentElement().normalize();
+
+//        NodeList nodeList=document.getElementsByTagName("busArrivalItem");
+//        log.info("123={}",nodeList.getLength());
+
+//        Node nNode=nodeList.item(0);
+//        if(nNode.getNodeType()==Node.ELEMENT_NODE){
+//            Element element= (Element) nNode;
+//            log.info("321={}",getTagValue("flag",element));
+//        }
+
+        NodeList nodeList= document.getElementsByTagName("busLocationList");
+        //아랫줄 null에러가 나온다.
+        NodeList childNodes=nodeList.item(0).getChildNodes();
+        for(int j=0;j<childNodes.getLength();j++){
+            if("endBus".equals(childNodes.item(j).getNodeName())){
+                log.info("111={}",childNodes.item(j).getAttributes());
+            }
+            if("lowPlate".equals(childNodes.item(j).getNodeName())){
+                log.info("222={}",childNodes.item(j).getChildNodes());
+            }
+            if("plateNo".equals(childNodes.item(j).getNodeName())){
+                log.info("333={}",childNodes.item(j).getFirstChild());//값이 나온다.-key-value같이 나옴
+            }
+            if("routeId".equals(childNodes.item(j).getNodeName())){
+                log.info("444={}",childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
+            }
+            if("stationId".equals(childNodes.item(j).getNodeName())){
+                log.info("555={}",childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
+            }
+        }
+
+
         return "노선아이디,정류소 아이디, 정류소 순번을 받는다.";
     }
 
@@ -85,7 +138,13 @@ public class BusController {
         }
         rd.close();
         conn.disconnect();
-        System.out.println(sb.toString());
+    }
+    private static String getTagValue(String tag, Element eElement) {
+        NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+        Node nValue = (Node) nlList.item(0);
+        if(nValue == null)
+            return null;
+        return nValue.getNodeValue();
     }
 
 }

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -33,8 +31,8 @@ public class BusController {
     @GetMapping("bus")//값을 보내야한다. 아두이노로
     public String areaForm(BusDto busDto, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         model.addAttribute("bus",busDto);
-        busLiveApi();//areaDto로 원래가지고 있던 정보를 주어야한다. 그리고 busdto를 넣어서 각종아이디를 넣어야한다.
-        busLive();
+        busLiveApi();//노선 id를 넣는다. -노선id, 정류소 id, 노선의 정류소 순번을 꺼낸다.
+        busLive();//노선id, 정류소 id, 노선의 정류소 순번을 넣는다.-버스의 현재위치와+번스 번호+내리는 역을 입력받는다.
         return "bus/BusLive";
     }
     @PostMapping("bus")
@@ -79,33 +77,25 @@ public class BusController {
         // 문서 구조 안정화
         document.getDocumentElement().normalize();
 
-//        NodeList nodeList=document.getElementsByTagName("busArrivalItem");
-//        log.info("123={}",nodeList.getLength());
-
-//        Node nNode=nodeList.item(0);
-//        if(nNode.getNodeType()==Node.ELEMENT_NODE){
-//            Element element= (Element) nNode;
-//            log.info("321={}",getTagValue("flag",element));
-//        }
 
         NodeList nodeList= document.getElementsByTagName("busLocationList");
-        //아랫줄 null에러가 나온다.
+
         NodeList childNodes=nodeList.item(0).getChildNodes();
         for(int j=0;j<childNodes.getLength();j++){
             if("endBus".equals(childNodes.item(j).getNodeName())){
-                log.info("111={}",childNodes.item(j).getAttributes());
+                log.info("131={}",childNodes.item(j).getAttributes());
             }
             if("lowPlate".equals(childNodes.item(j).getNodeName())){
-                log.info("222={}",childNodes.item(j).getChildNodes());
+                log.info("232={}",childNodes.item(j).getChildNodes());
             }
             if("plateNo".equals(childNodes.item(j).getNodeName())){
                 log.info("333={}",childNodes.item(j).getFirstChild());//값이 나온다.-key-value같이 나옴
             }
             if("routeId".equals(childNodes.item(j).getNodeName())){
-                log.info("444={}",childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
+                log.info("434={}",childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
             }
             if("stationId".equals(childNodes.item(j).getNodeName())){
-                log.info("555={}",childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
+                log.info("535={}",childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
             }
         }
 
@@ -114,7 +104,8 @@ public class BusController {
     }
 
     //버스 도착 정보 항목 조회 (정류소 아이디, 노선 아이디, 정류소 순번)넣고-busapi를 통해서 값을 얻고 값 출력
-    public void busLive() throws IOException{
+    //+버스도착정보항목조회
+    public void busLive() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busarrivalservice/getBusArrivalItem"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("stationId","UTF-8") + "=" + URLEncoder.encode("200000177", "UTF-8")); /*정류소ID*/
@@ -138,13 +129,41 @@ public class BusController {
         }
         rd.close();
         conn.disconnect();
-    }
-    private static String getTagValue(String tag, Element eElement) {
-        NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-        Node nValue = (Node) nlList.item(0);
-        if(nValue == null)
-            return null;
-        return nValue.getNodeValue();
+
+        //빌더 팩토리 생성
+        DocumentBuilderFactory builderFactory=DocumentBuilderFactory.newInstance();
+
+        //빌더 팩토리로부터 빌더 생성
+        DocumentBuilder builder=builderFactory.newDocumentBuilder();
+
+        //빌더를 통해 xml 문서를 파싱해서 Document 객체로 가져온다.
+        Document document=builder.parse(String.valueOf(url));
+
+        // 문서 구조 안정화
+        document.getDocumentElement().normalize();
+        
+        //1개밖에없음
+        NodeList nodeList= document.getElementsByTagName("busArrivalItem");
+
+        NodeList childNodes=nodeList.item(0).getChildNodes();
+        for(int j=0;j<childNodes.getLength();j++){
+            if("flag".equals(childNodes.item(j).getNodeName())){
+                log.info("141={}",childNodes.item(j).getAttributes());
+            }
+            if("locationNo1".equals(childNodes.item(j).getNodeName())){
+                log.info("242={}",childNodes.item(j).getChildNodes());
+            }
+            if("staOrder".equals(childNodes.item(j).getNodeName())){
+                log.info("343={}",childNodes.item(j).getFirstChild());//값이 나온다.-key-value같이 나옴
+            }
+            if("routeId".equals(childNodes.item(j).getNodeName())){
+                log.info("444={}",childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
+            }
+            if("stationId".equals(childNodes.item(j).getNodeName())){
+                log.info("545={}",childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
+            }
+        }
+
     }
 
 }

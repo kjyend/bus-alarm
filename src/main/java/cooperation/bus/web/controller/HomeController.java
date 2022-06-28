@@ -1,5 +1,6 @@
 package cooperation.bus.web.controller;
 
+import cooperation.bus.domain.dto.AreaDto;
 import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(@Login MemberDto loginMember, Model model){
+    public String home(@Login MemberDto loginMember, AreaDto areaDto, Model model){
         if(loginMember==null){
             return "Home";
         }
         model.addAttribute("member",loginMember);
+
         return "LoginHome";
 
     }

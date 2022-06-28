@@ -5,6 +5,12 @@
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <title>LoginHome</title>
     <style>
+        .bus-button{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
         .button-mid{
             position: absolute;
             top: 50%;
@@ -23,6 +29,13 @@
             </div>
         </form>
     </div>
+</div>
+<div class="bus-button">
+    <form>
+        <span>원하는 버스 번호를 넣어주세요</span><!--entity를 받는데 다른 값을 넣어야한다. 다른 entity를 생각해볼만하다.-->
+        <input placeholder="버스 번호">
+        <button type="submit" class="btn btn-primary">버스설정</button>
+    </form>
 </div>
 <div class="button-mid">
     <button class=" btn btn-primary" th:onclick="|location.href='@{/bus}'|" type="button">실시간 버스 위치</button>

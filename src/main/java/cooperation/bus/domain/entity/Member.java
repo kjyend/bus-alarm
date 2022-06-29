@@ -1,7 +1,6 @@
 package cooperation.bus.domain.entity;
 
 import com.sun.istack.NotNull;
-import cooperation.bus.domain.dto.MemberDto;
 import lombok.*;
 
 import javax.persistence.Entity;

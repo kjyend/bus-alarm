@@ -31,7 +31,7 @@
     </div>
 </div>
 <div class="bus-button">
-    <form>
+    <form action="" th:object="${area}" method="post">
         <span>원하는 버스 번호를 넣어주세요</span><!--entity를 받는데 다른 값을 넣어야한다. 다른 entity를 생각해볼만하다.-->
         <input placeholder="버스 번호">
         <button type="submit" class="btn btn-primary">버스설정</button>
@@ -40,6 +40,7 @@
 <div class="button-mid">
     <button class=" btn btn-primary" th:onclick="|location.href='@{/bus}'|" type="button">실시간 버스 위치</button>
     <button class=" btn btn-primary " th:onclick="|location.href='@{/area}'|" type="button">버스 번호 설정하기</button>
+    <button class=" btn btn-primary " th:onclick="|location.href='@{/setting}'|" type="button">버스 지역 정하기</button>
 </div>
 </body>
 </html>

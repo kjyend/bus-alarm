@@ -1,6 +1,5 @@
 package cooperation.bus.web.controller;
 
-import cooperation.bus.domain.dto.AreaDto;
 import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +25,14 @@ import java.io.BufferedReader;
 @Controller
 @RequiredArgsConstructor
 public class SettingController {
+
+    private String num;//노선 번호
+    private String iddd;//노선 id
+
     @GetMapping("setting")
-    public String setForm(@Login MemberDto loginMember) throws IOException, ParserConfigurationException, SAXException { //경기도_버스노선 조회- 노선번호 목록조회, 노선번호 넣고 노선id를 얻는다.
-        busNumber();
+    public String setForm(@Login MemberDto loginMember) throws IOException, ParserConfigurationException, SAXException {
+        //경기도_버스노선 조회- 경우 정류소 목록조회로 바꾼다.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
+        busNumber();//노선목록을 쭉 세워두고 하나를 선택하게 한다.
         return "bus/BusSetting";
     }
 

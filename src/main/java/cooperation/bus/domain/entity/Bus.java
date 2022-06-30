@@ -8,9 +8,10 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-public class Bus {//내려야할 역, 버스 번호,노선id를 넣고,버스 위치
+public class Bus {// 버스 번호,노선id를 넣고,버스 위치
     @Id @GeneratedValue
     private Long id;
-    private String busName;
-    private String busPosition;
+    private String busNumber;
+    private String busId;
+
 }

@@ -27,6 +27,9 @@ import java.net.URLEncoder;
 @Slf4j
 @Controller
 public class BusController {
+
+    private String iddd;//노선 id
+    private String dkdk;//노선 id, 정류소 id, 노선의 정류소 순번
     //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
     @GetMapping("bus")//값을 보내야한다. 아두이노로
     public String areaForm(BusDto busDto, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
@@ -103,14 +106,12 @@ public class BusController {
         return "노선아이디,정류소 아이디, 정류소 순번을 받는다.";
     }
 
-    //버스 도착 정보 항목 조회 (정류소 아이디, 노선 아이디, 정류소 순번)넣고-busapi를 통해서 값을 얻고 값 출력
+    //버스 도착 정보 항목 조회 (노선 아이디)넣고-(x,y좌표, stationSeq-순번,stationName-역 이름)//이걸이용해서 잘쓰기
     //+버스도착정보항목조회
     public void busLive() throws IOException, SAXException, ParserConfigurationException {
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busarrivalservice/getBusArrivalItem"); /*URL*/
+        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteStationList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("stationId","UTF-8") + "=" + URLEncoder.encode("200000177", "UTF-8")); /*정류소ID*/
-        urlBuilder.append("&" + URLEncoder.encode("routeId","UTF-8") + "=" + URLEncoder.encode("200000037", "UTF-8")); /*노선ID*/
-        urlBuilder.append("&" + URLEncoder.encode("staOrder","UTF-8") + "=" + URLEncoder.encode("19", "UTF-8")); /*노선의 정류소 순번*/
+        urlBuilder.append("&" + URLEncoder.encode("routeId","UTF-8") + "=" + URLEncoder.encode("200000085", "UTF-8")); /*노선ID*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -143,23 +144,23 @@ public class BusController {
         document.getDocumentElement().normalize();
         
         //1개밖에없음
-        NodeList nodeList= document.getElementsByTagName("busArrivalItem");
+        NodeList nodeList= document.getElementsByTagName("busRouteStationList");
 
         NodeList childNodes=nodeList.item(0).getChildNodes();
         for(int j=0;j<childNodes.getLength();j++){
-            if("flag".equals(childNodes.item(j).getNodeName())){
+            if("turnYn".equals(childNodes.item(j).getNodeName())){
                 log.info("141={}",childNodes.item(j).getAttributes());
             }
-            if("locationNo1".equals(childNodes.item(j).getNodeName())){
+            if("stationSeq".equals(childNodes.item(j).getNodeName())){
                 log.info("242={}",childNodes.item(j).getChildNodes());
             }
-            if("staOrder".equals(childNodes.item(j).getNodeName())){
+            if("stationId".equals(childNodes.item(j).getNodeName())){
                 log.info("343={}",childNodes.item(j).getFirstChild());//값이 나온다.-key-value같이 나옴
             }
-            if("routeId".equals(childNodes.item(j).getNodeName())){
+            if("stationName".equals(childNodes.item(j).getNodeName())){
                 log.info("444={}",childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
             }
-            if("stationId".equals(childNodes.item(j).getNodeName())){
+            if("x".equals(childNodes.item(j).getNodeName())){
                 log.info("545={}",childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
             }
         }

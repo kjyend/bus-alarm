@@ -30,6 +30,11 @@ import java.net.URLEncoder;
 @Slf4j//반응형웹을 만들어야한다. 근데 안만들어진다 또한 값을 통일해주어야한다. 설계에 대하여 다시 고민해야할듯하다.
 public class AreaController {
 
+    private String stationId;//정류소 id
+    private int x;//x
+    private int y;//y
+    private String iddd;//노선 id
+
     private final AreaService areaService;
 
 
@@ -43,11 +48,8 @@ public class AreaController {
 
     @PostMapping("area")
     public String areaData(AreaDto areaDto) throws IOException, ParserConfigurationException, SAXException {
-
         return "redirect:";
     }
-
-
 
     public String busStation(AreaDto areaDto) throws IOException, ParserConfigurationException, SAXException {//주변정류소 목록조회+경기도_정류소 조회
         //정류장 위치 확인 x,y값을 넣어서 다양한 값들얻는다, x,y값을 넣어서 정류소Id를 빼넨다.

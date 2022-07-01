@@ -9,9 +9,6 @@ import lombok.Getter;
 @Getter
 public class MemberDto {
 
-    @JsonIgnore
-    private Long id;
-
     private String loginId;
     private String password;
     private String name;

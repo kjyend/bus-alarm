@@ -30,12 +30,12 @@ public class BusController {
 
     private String iddd;//노선 id
     private String dkdk;//노선 id, 정류소 id, 노선의 정류소 순번
-    //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
+
     @GetMapping("bus")//값을 보내야한다. 아두이노로
     public String areaForm(BusDto busDto, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         model.addAttribute("bus",busDto);
-        busLiveApi();//노선 id를 넣는다. -노선id, 정류소 id, 노선의 정류소 순번을 꺼낸다.
-        busLive();//노선id, 정류소 id, 노선의 정류소 순번을 넣는다.-버스의 현재위치와+번스 번호+내리는 역을 입력받는다.
+        busLiveApi();//노선 id를 넣는다. -이거 흠
+        busLive();//노선id, -버스의 현재위치와+번스 번호+내리는 역을 입력받는다.
         return "bus/BusLive";
     }
     @PostMapping("bus")
@@ -44,6 +44,7 @@ public class BusController {
     }
 
     public String busLiveApi() throws IOException, ParserConfigurationException, SAXException {// 실시간 버스 위치 +노선도+json을 아두이노한테 보내주어야 한다.(버스 위치정보 조회-실시간으로 버스위치 알수있다.)
+        //변수 -int nodeId
         //노선 id를 넣고 버스위치 정보 목록을 살펴야한다.
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/buslocationservice/getBusLocationList"); /*URL*/
@@ -102,13 +103,13 @@ public class BusController {
             }
         }
 
-
         return "노선아이디,정류소 아이디, 정류소 순번을 받는다.";
     }
 
     //버스 도착 정보 항목 조회 (노선 아이디)넣고-(x,y좌표, stationSeq-순번,stationName-역 이름)//이걸이용해서 잘쓰기
     //+버스도착정보항목조회
     public void busLive() throws IOException, SAXException, ParserConfigurationException {
+        //int nodeId
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteStationList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("routeId","UTF-8") + "=" + URLEncoder.encode("200000085", "UTF-8")); /*노선ID*/

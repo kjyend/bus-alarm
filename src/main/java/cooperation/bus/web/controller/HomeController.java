@@ -29,7 +29,7 @@ public class HomeController {
             return "LoginHome";
         }
         model.addAttribute("area", areaDto);
-        return "redirect:";
+        return "redirect:setting";
     }
 
 }

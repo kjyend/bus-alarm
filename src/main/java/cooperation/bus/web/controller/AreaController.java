@@ -5,7 +5,6 @@ import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.AreaService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,16 +30,15 @@ import java.net.URLEncoder;
 public class AreaController {
 
     private String stationId;//정류소 id
-    private int x;//x
-    private int y;//y
+    private String busName;//정류소 이름
     private String iddd;//노선 id
 
     private final AreaService areaService;
 
-
     @GetMapping("area")
     public String areaForm(AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
-        busStation(areaDto);//x,y값을 넣는다.-정류소ID를 껀낸다.
+        //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
+        busStation();//버스정류장역 이름을 적는다.
         busApi();//정류소id을 넣는다.- 노선ID를 꺼낸다.
         model.addAttribute("area",areaDto);
         return "bus/BusStop";
@@ -51,19 +49,19 @@ public class AreaController {
         return "redirect:";
     }
 
-    public String busStation(AreaDto areaDto) throws IOException, ParserConfigurationException, SAXException {//주변정류소 목록조회+경기도_정류소 조회
-        //정류장 위치 확인 x,y값을 넣어서 다양한 값들얻는다, x,y값을 넣어서 정류소Id를 빼넨다.
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busstationservice/getBusStationAroundList"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("x", "UTF-8") + "=" + URLEncoder.encode("127.0284667", "UTF-8")); /*X 좌표(WGS84)*/
-        urlBuilder.append("&" + URLEncoder.encode("y", "UTF-8") + "=" + URLEncoder.encode("37.49545", "UTF-8")); /*Y 좌표(WGS84)*/
+    public String busStation() throws IOException, ParserConfigurationException, SAXException {//주변정류소 목록조회+경기도_정류소 조회
+        //변수-String name
+        //정류소명/번호 목록조회= 버스역을 적으면 값을 준다.
+        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busstationservice/getBusStationList"); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("keyword","UTF-8") + "=" + URLEncoder.encode("12", "UTF-8")); /*정류소명 또는 번호(2자리 이상)*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
         System.out.println("Response code: " + conn.getResponseCode());
         BufferedReader rd;
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         } else {
             rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
@@ -89,24 +87,24 @@ public class AreaController {
         // 문서 구조 안정화
         document.getDocumentElement().normalize();
 
-        NodeList nodeList = document.getElementsByTagName("busStationAroundList");
+        NodeList nodeList = document.getElementsByTagName("busStationList");
 
         for(int i=0;i<nodeList.getLength();i++){
             NodeList childNodes = nodeList.item(i).getChildNodes();
             for (int j = 0; j < childNodes.getLength(); j++) {
-                if ("mobileNo".equals(childNodes.item(j).getNodeName())) {
+                if ("centerYn".equals(childNodes.item(j).getNodeName())) {
                     log.info("111={}", childNodes.item(j).getAttributes());
                 }
-                if ("x".equals(childNodes.item(j).getNodeName())) {
+                if ("districtCd".equals(childNodes.item(j).getNodeName())) {
                     log.info("212={}", childNodes.item(j).getChildNodes());
                 }
                 if ("stationName".equals(childNodes.item(j).getNodeName())) {
                     log.info("313={}", childNodes.item(j).getFirstChild());//값이 나온다.-key-value같이 나옴
                 }
-                if ("stationId".equals(childNodes.item(j).getNodeName())) {
+                if ("x".equals(childNodes.item(j).getNodeName())) {
                     log.info("414={}", childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
                 }
-                if ("distance".equals(childNodes.item(j).getNodeName())) {
+                if ("stationId".equals(childNodes.item(j).getNodeName())) {
                     log.info("515={}", childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
                 }
             }
@@ -117,6 +115,7 @@ public class AreaController {
 
     public String busApi() throws IOException, ParserConfigurationException, SAXException {// 정류소경유노선 목록조회 (정확히 몇번 버스로 설정할것인지 판단+ 지도를 찍어서 주변 정류소+지나는 버스값을 얻는다.)
         //정류소Id를 가지고 노선 목록과 노선 아이디를 보넨다. +경기도 정류소 조회
+        //변수 -int busId
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busstationservice/getBusStationViaRouteList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/

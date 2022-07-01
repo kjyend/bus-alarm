@@ -41,7 +41,8 @@ public class SettingController {
         return "redirect:";
     }
 
-    public void busNumber() throws IOException, ParserConfigurationException, SAXException {
+    public void busNumber() throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.
+        //int num
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("keyword", "UTF-8") + "=" + URLEncoder.encode("11", "UTF-8")); /*노선번호*/

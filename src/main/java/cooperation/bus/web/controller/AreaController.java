@@ -29,10 +29,6 @@ import java.net.URLEncoder;
 @Slf4j//반응형웹을 만들어야한다. 근데 안만들어진다 또한 값을 통일해주어야한다. 설계에 대하여 다시 고민해야할듯하다.
 public class AreaController {
 
-    private String stationId;//정류소 id
-    private String busName;//정류소 이름
-    private String iddd;//노선 id
-
     private final AreaService areaService;
 
     @GetMapping("area")

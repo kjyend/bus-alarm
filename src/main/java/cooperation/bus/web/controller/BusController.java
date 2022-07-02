@@ -28,8 +28,6 @@ import java.net.URLEncoder;
 @Controller
 public class BusController {
 
-    private String iddd;//노선 id
-    private String dkdk;//노선 id, 정류소 id, 노선의 정류소 순번
 
     @GetMapping("bus")//값을 보내야한다. 아두이노로
     public String areaForm(BusDto busDto, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {

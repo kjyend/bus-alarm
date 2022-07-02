@@ -1,5 +1,6 @@
 package cooperation.bus.web.controller;
 
+import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +27,12 @@ import java.io.BufferedReader;
 @RequiredArgsConstructor
 public class SettingController {
 
-    private String num;//노선 번호
-    private String iddd;//노선 id
-
     @GetMapping("setting")
-    public String setForm(@Login MemberDto loginMember) throws IOException, ParserConfigurationException, SAXException {
+    public String setForm(@Login MemberDto loginMember, BusDto busDto) throws IOException, ParserConfigurationException, SAXException {
         //경기도_버스노선 조회- 경우 정류소 목록조회로 바꾼다.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
-        busNumber();//노선목록을 쭉 세워두고 하나를 선택하게 한다.
+        // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
+        busNumber(busDto.getBusNumber());//노선목록을 쭉 세워두고 하나를 선택하게 한다.
+
         return "bus/BusSetting";
     }
 
@@ -41,7 +41,7 @@ public class SettingController {
         return "redirect:";
     }
 
-    public void busNumber() throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.
+    public void busNumber(Long busNum) throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.
         //int num
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/

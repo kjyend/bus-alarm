@@ -33,7 +33,7 @@
 <div class="bus-button">
     <form action="" th:object="${bus}" method="post">
         <span>원하는 버스 번호를 넣어주세요</span><!--entity를 받는데 다른 값을 넣어야한다. 다른 entity를 생각해볼만하다.-->
-        <input  th:field="*{busNumber}" placeholder="버스 번호">
+        <input type="text" placeholder="버스 번호" th:field="*{busNumber}" name="busNumber">
         <button type="submit" class="btn btn-primary">버스설정</button>
     </form>
 </div>

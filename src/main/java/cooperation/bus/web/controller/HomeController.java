@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -24,8 +26,7 @@ public class HomeController {
         if (loginMember == null) {
             return "Home";
         }
-        model.addAttribute("member", loginMember);
-        model.addAttribute("bus", busDto);
+        model.addAttribute("bus",busDto);
         return "LoginHome";
     }
 
@@ -35,7 +36,7 @@ public class HomeController {
             return "LoginHome";
         }
         //save로 저장해야한다.
+        busService.busNumberSave(busDto);
         return "redirect:setting";
     }
-
 }

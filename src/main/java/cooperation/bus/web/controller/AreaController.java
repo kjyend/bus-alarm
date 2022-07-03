@@ -29,6 +29,11 @@ import java.net.URLEncoder;
 @Slf4j//반응형웹을 만들어야한다. 근데 안만들어진다 또한 값을 통일해주어야한다. 설계에 대하여 다시 고민해야할듯하다.
 public class AreaController {
 
+    //repository 
+    //service를 사용해서 원하는값 얻기
+    //시리얼통신을 통해서 outㅇ을한다. 끝 마무리한다.
+    //html에서 버스 어느 지역에 있는지 봐야하느데 조회하는거 0.스프링입문,34페이지 조회에서 본다.
+    
     private final AreaService areaService;
 
     @GetMapping("area")

@@ -2,6 +2,8 @@ package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.AreaDto;
 import cooperation.bus.domain.dto.BusDto;
+import cooperation.bus.domain.service.BusService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,11 +29,14 @@ import java.net.URLEncoder;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class BusController {
 
+    private final BusService busService;
 
     @GetMapping("bus")//값을 보내야한다. 아두이노로
     public String areaForm(BusDto busDto, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+
         model.addAttribute("bus",busDto);
         busLiveApi();//노선 id를 넣는다. -이거 흠
         busLive();//노선id, -버스의 현재위치와+번스 번호+내리는 역을 입력받는다.

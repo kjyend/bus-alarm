@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequiredArgsConstructor
-@Slf4j
 public class HomeController {
-
-    private final BusService busService;
 
     @GetMapping("/")
     public String homeForm(@Login MemberDto loginMember, BusDto busDto, Model model) {
@@ -30,13 +26,4 @@ public class HomeController {
         return "LoginHome";
     }
 
-    @PostMapping("/")
-    public String homeData(BusDto busDto) {//나중에 값넣고 null처링해아한다.
-        if (busDto == null) {
-            return "LoginHome";
-        }
-        //save로 저장해야한다.
-        busService.busNumberSave(busDto);
-        return "redirect:setting";
-    }
 }

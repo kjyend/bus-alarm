@@ -24,10 +24,25 @@
         </form>
     </div>
 </div>
-<div class="bus-button">
-    <form>
-        <div type="text" placeholder="버스 번호" name="busNumber">
-    </form>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">routeId</th>
+            <th scope="col">routeName</th>
+            <th scope="col">regionName</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="buss,i :${bus}">
+                <th scope="row" th:text="${i.index+1}"></th>
+                <td th:text="${buss[1]}"></td>
+                <td th:text="${buss[2]}"></td>
+                <td th:text="${buss[0]}"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

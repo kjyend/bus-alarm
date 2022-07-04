@@ -7,14 +7,13 @@ import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,29 +29,31 @@ import java.io.BufferedReader;
 @RequiredArgsConstructor
 public class SettingController {
 
+    //값을 배열로 선언해서 따로 전부 받는다. ex) {{8번,2000000,이천용인},{,,},{,,}}이런식으로**
+    //배열 넣고 html 바꾸기
+    
     private final BusService busService;
 
     @GetMapping("setting")
-    public String setForm(@Login MemberDto loginMember, BusDto busDto) throws IOException, ParserConfigurationException, SAXException {
-        //경기도_버스노선 조회- 경우 정류소 목록조회로 바꾼다.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
+    public String setForm(@Login MemberDto loginMember, BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+        //경기도_버스노선 조회- 노선번호목록조회ㄹ.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
         // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
 
-
-        busNumber(busDto.getBusNumber());//노선목록을 쭉 세워두고 하나를 선택하게 한다.
+        String[][] busData = busNumber(busDto.getBusNumber());//노선목록을 쭉 세워두고 하나를 선택하게 한다.
+        model.addAttribute("bus",busData);
 
         return "bus/BusSetting";
     }
 
     @PostMapping("setting")
-    public String setData(){
+    public String setData(){//데이터를 저장한다....
         return "redirect:";
     }
 
-    public void busNumber(Long busNum) throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.
-        //int num
+    public String[][] busNumber(String busNum) throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("keyword", "UTF-8") + "=" + URLEncoder.encode("11", "UTF-8")); /*노선번호*/
+        urlBuilder.append("&" + URLEncoder.encode("keyword", "UTF-8") + "=" + URLEncoder.encode(busNum, "UTF-8")); /*노선번호*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -84,26 +85,26 @@ public class SettingController {
         // 문서 구조 안정화
         document.getDocumentElement().normalize();
 
-
         NodeList nodeList = document.getElementsByTagName("busRouteList");
+        String[][] arr=new String[nodeList.getLength()][3];
 
-        NodeList childNodes = nodeList.item(0).getChildNodes();
-        for (int j = 0; j < childNodes.getLength(); j++) {
-            if ("districtCd".equals(childNodes.item(j).getNodeName())) {
-                log.info("131={}", childNodes.item(j).getAttributes());
-            }
-            if ("routeTypeName".equals(childNodes.item(j).getNodeName())) {
-                log.info("232={}", childNodes.item(j).getChildNodes());
-            }
-            if ("routeName".equals(childNodes.item(j).getNodeName())) {
-                log.info("333={}", childNodes.item(j).getFirstChild());//값이 나온다.-key-value같이 나옴
-            }
-            if ("regionName".equals(childNodes.item(j).getNodeName())) {
-                log.info("434={}", childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
-            }
-            if ("routeId".equals(childNodes.item(j).getNodeName())) {
-                log.info("535={}", childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
+        for(int temp=0;temp<nodeList.getLength();temp++){
+            NodeList childNodes = nodeList.item(temp).getChildNodes();
+            for (int j = 0; j < childNodes.getLength(); j++) {
+                if ("regionName".equals(childNodes.item(j).getNodeName())) {
+                    log.info("1={}", childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
+                    arr[temp][0] = childNodes.item(j).getTextContent();
+                }
+                if ("routeId".equals(childNodes.item(j).getNodeName())) {
+                    log.info("2={}", childNodes.item(j).getTextContent());//값이 나온다.-key-value같이 나옴
+                    arr[temp][1] = childNodes.item(j).getTextContent();
+                }
+                if ("routeName".equals(childNodes.item(j).getNodeName())) {
+                    log.info("3={}", childNodes.item(j).getTextContent());//값이 나온다.-key-value같이 나옴
+                    arr[temp][2] = childNodes.item(j).getTextContent();
+                }
             }
         }
+        return arr;
     }
 }

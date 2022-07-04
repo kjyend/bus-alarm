@@ -13,7 +13,7 @@ public class BusService {
 
     private final BusRepository busRepository;
 
-    public void busNumberSave(BusDto busDto){
+    public void busSave(BusDto busDto){
         Bus bus = busDto.toBusEntity(busDto);
         busRepository.save(bus);
     }

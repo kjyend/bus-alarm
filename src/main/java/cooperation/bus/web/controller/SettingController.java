@@ -6,14 +6,17 @@ import cooperation.bus.domain.service.BusService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,9 +32,7 @@ import java.io.BufferedReader;
 @RequiredArgsConstructor
 public class SettingController {
 
-    //값을 배열로 선언해서 따로 전부 받는다. ex) {{8번,2000000,이천용인},{,,},{,,}}이런식으로**
-    //배열 넣고 html 바꾸기
-    
+
     private final BusService busService;
 
     @GetMapping("setting")
@@ -46,7 +47,12 @@ public class SettingController {
     }
 
     @PostMapping("setting")
-    public String setData(){//데이터를 저장한다....
+    public String setData(BusDto busDto,HttpServletRequest request){//데이터를 저장이 안됨 일단 대기한다.
+        log.info("logId={}",busDto.getBusId());
+        log.info("logId22={}",request);
+        log.info("logArea={}",busDto.getBusArea());
+        log.info("logNumber={}",busDto.getBusNumber());
+        busService.busSave(busDto);
         return "redirect:";
     }
 

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Bus {// 버스 번호,노선id를 넣고,버스 위치
+
     @Id @GeneratedValue
     private Long id;
     private String busNumber;//버스 번호(노선 번호)

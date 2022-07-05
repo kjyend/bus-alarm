@@ -36,10 +36,16 @@
         </thead>
         <tbody>
             <tr th:each="buss,i :${bus}">
-                <th scope="row" th:text="${i.index+1}"></th>
-                <td th:text="${buss[1]}"></td>
-                <td th:text="${buss[2]}"></td>
-                <td th:text="${buss[0]}"></td>
+                <form name="busDto" action="setting" method="post" >
+<!--                선택을해서 저장을 해야하는데 저장이 안된다...-->
+                    <th scope="row" th:text="${i.index+1}"></th>
+                    <td name="busId" th:text="${buss[1]}"></td>
+                    <td name="busNumber" th:text="${buss[2]}"></td>
+                    <td name="busArea" th:text="${buss[0]}"></td>
+                    <td>
+                        <input type="submit" class=" btn btn-lg btn-primary" value="선택">
+                    </td>
+                </form>
             </tr>
         </tbody>
     </table>

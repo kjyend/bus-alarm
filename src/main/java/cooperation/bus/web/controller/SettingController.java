@@ -31,7 +31,6 @@ import java.io.BufferedReader;
 @RequiredArgsConstructor
 public class SettingController {
 
-
     private final BusService busService;
 
     @GetMapping("setting")
@@ -45,7 +44,7 @@ public class SettingController {
         return "bus/BusSetting";
     }
 
-    @PostMapping("setting")
+    @PostMapping("setting") //지금 일단 사용안한다.
     public String setData(BusDto busDto,Model model){//데이터를 저장이 안됨 일단 대기한다.
 
         log.info("logId={}",busDto.getBusId());

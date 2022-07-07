@@ -35,23 +35,20 @@
         </tr>
         </thead>
         <tbody>
-
-                <tr th:each="buss,i :${bus}">
-<!--                선택을해서 저장을 해야하는데 저장이 안된다...-->
-                    <th scope="row" th:text="${i.index+1}"></th>
-                    <td th:text="${buss[1]}"></td>
-                    <td th:text="${buss[2]}"></td>
-                    <td th:text="${buss[0]}"></td>
-                    <td>
-                        <form action="" method="post">
+            <tr th:each="buss,i :${bus}">
+                <th scope="row" th:text="${i.index+1}"></th>
+                <td th:text="${buss[1]}"></td>
+                <td th:text="${buss[2]}"></td>
+                <td th:text="${buss[0]}"></td>
+                <td>
+                    <form action="" method="post">
                         <input type="hidden" name="busId" th:value="${buss[1]}">
                         <input type="hidden" name="busNumber" th:value="${buss[2]}">
-                        <input type="hidden" name="busArea" th:value="${buss[0]}">
+                       <input type="hidden" name="busArea" th:value="${buss[0]}">
                         <button type="submit" class=" btn btn-lg btn-primary" >선택</button>
-                        </form>
-                    </td>
-                </tr>
-
+                    </form>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

@@ -8,20 +8,23 @@ import lombok.Getter;
 @Getter
 public class AreaDto {
 
-    private String busStopName;//내릴 버스 정류소 이름
     private String busStationId;//정류소id
-    private String busStationName;//정류소 이름
+    private String busStationName;//현재 정류소 이름
+    private String busStopName;//내릴 버스 정류소 이름
+    private String busStopId;//내릴 버스 정류소id
 
     public AreaDto toAreaDto(Area area){
         return AreaDto.builder()
-                .busStopName(area.getBusStopName())
                 .busStationId(area.getBusStationId())
-                .busStopName(area.getBusStopName()).build();
+                .busStopName(area.getBusStopName())
+                .busStopName(area.getBusStopName())
+                .busStopId(area.getBusStopId()).build();
     }
     public Area toAreaEntity(AreaDto areaDto){
         return Area.builder()
-                .busStopName(areaDto.getBusStopName())
                 .busStationId(areaDto.getBusStationId())
-                .busStationName(areaDto.getBusStationName()).build();
+                .busStationName(areaDto.getBusStationName())
+                .busStopName(areaDto.getBusStopName())
+                .busStopId(areaDto.getBusStopId()).build();
     }
 }

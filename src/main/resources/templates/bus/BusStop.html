@@ -1,87 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-    <title>BusStop</title>
-    <style>
-        .top-side{
-            z-index: 3;
-        }
-        .button-mid{
-            position: absolute;
-            top: 85%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            z-index: 3;
-        }
-        .map-mid{
-            position: absolute;
-            top:50%;
-            left:10%;
-            width:80%;
-            height:450px;
-            transform: translate(0%,-65%);
-            z-index: 2;
-        }
-        .check-mid{
-            position: absolute;
-            top: 75%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+  <title>BusLive</title>
+  <style>
+    .button-mid{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+  </style>
 </head>
 <body>
-
-<div class="navbar navbar-dark bg-dark top-side">
-    <div class="container-md">
-        <a class="navbar-brand" th:onclick="|location.href='@{/}'|">Bus</a>
-        <form th:action="@{/logout}" method="post">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary" th:onclick="|location.href='login.html'|" type="submit">sign out</button>
-            </div>
-        </form>
-    </div>
-</div>
-<div id="map" class="map-mid"></div>
-<p class="check-mid"><em>지도를 클릭해주세요!</em></p>
-<p id="result"></p>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=564479de13ad6f1d14af855887827971"></script>
-<script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new kakao.maps.LatLng(37.27221243499719, 127.43538661779942), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-        };
-
-    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-    // 지도에 클릭 이벤트를 등록합니다
-    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-    // 지도를 클릭하면 정류장에 마크 표시가 나와야한다. 마크를 클릭하면 id값이나 다른값이 나와야한다.
-    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        var latlng = mouseEvent.latLng;
-
-        var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-        message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-
-        var resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = message;
-
-    });
-
-</script>
-
-<div class="button-mid" >
-    <form method="post">
-        <input placeholder="이거 바꾸고 이제까지 받은 데이터 중에서 확인하기">
-        <button type="submit" class="btn btn-primary">데이터 보내기</button>
+<div class="navbar navbar-dark bg-dark">
+  <div class="container-md">
+    <a class="navbar-brand" th:onclick="|location.href='@{/}'|">Bus</a>
+    <form th:action="@{/logout}" method="post">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary" th:onclick="|location.href='login.html'|" type="submit">sign out</button>
+      </div>
     </form>
+  </div>
+</div>
+<div class="container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">stationId</th>
+      <th scope="col">stationName</th>
+      <th scope="col">내릴 정류소를 선택해주세요</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="busRoutes,i :${busRoute}">
+      <th scope="row" th:text="${i.index+1}"></th>
+      <td th:text="${busRoutes[0]}"></td>
+      <td th:text="${busRoutes[1]}"></td>
+      <td>
+        <form action="busStop" method="post">
+          <input type="hidden" name="busStationId" th:value="${busStationId}">
+          <input type="hidden" name="busStationName" th:value="${busStationName}">
+          <input type="hidden" name="busStopId" th:value="${busRoutes[0]}">
+          <input type="hidden" name="busStopName" th:value="${busRoutes[1]}">
+          <button type="submit" class=" btn btn-lg btn-primary" >선택</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 </body>
 </html>

@@ -30,7 +30,7 @@ public class LoginController {
 
     @PostMapping("/signup")
     public String signup(@Validated MemberDto memberDto, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){ //처음부터 비워있을때 오류 내야한다.
+        if(bindingResult.hasErrors()){
             return "member/signup";
         }
         memberService.save(memberDto);

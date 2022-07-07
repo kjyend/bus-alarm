@@ -26,7 +26,7 @@ import java.net.URLEncoder;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j//반응형웹을 만들어야한다. 근데 안만들어진다 또한 값을 통일해주어야한다. 설계에 대하여 다시 고민해야할듯하다.
+@Slf4j
 public class AreaController {
 
     //repository 
@@ -42,7 +42,7 @@ public class AreaController {
         busStation();//버스정류장역 이름을 적는다.
         busApi();//정류소id을 넣는다.- 노선ID를 꺼낸다.
         model.addAttribute("area",areaDto);
-        return "bus/BusStop";
+        return "bus/BusData";
     }
 
     @PostMapping("area")

@@ -3,14 +3,13 @@ package cooperation.bus.domain.entity;
 import com.sun.istack.NotNull;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Member {
     @Id @GeneratedValue
     private Long id;
@@ -21,12 +20,6 @@ public class Member {
     private String name;
     private String dob;
 
-    public Member(Long id, String loginId, String password, String name, String dob) {
-        this.id = id;
-        this.loginId = loginId;
-        this.password = password;
-        this.name = name;
-        this.dob = dob;
-    }
-
+    @OneToOne(mappedBy = "bus",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Bus bus;
 }

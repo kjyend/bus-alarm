@@ -2,7 +2,6 @@ package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.AreaDto;
 import cooperation.bus.domain.service.AreaService;
-import cooperation.bus.domain.service.BusService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,7 +33,7 @@ public class BusController {
     private final AreaService areaService;
     private static String[][] busRouteArr;
 
-    @GetMapping("bus")
+    @GetMapping("bus")//노드값을 받아야한다.+ 방향성을 선택해야한다.
     public String busForm(AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         busRouteArr= busRoute("123");//busdto에있는 값을 넣줘야한다.
         model.addAttribute("busRoute",busRouteArr);

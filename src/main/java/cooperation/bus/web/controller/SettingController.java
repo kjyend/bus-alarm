@@ -2,13 +2,16 @@ package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.dto.MemberDto;
+import cooperation.bus.domain.entity.Member;
 import cooperation.bus.domain.service.BusService;
+import cooperation.bus.domain.service.MemberService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
@@ -32,11 +35,14 @@ import java.io.BufferedReader;
 public class SettingController {
 
     private final BusService busService;
+    private final MemberService memberService;
 
-    @GetMapping("setting")
-    public String setForm(@Login MemberDto loginMember, @RequestParam("busSearch") String busNumber, BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+    @GetMapping("setting/{memberId}")
+    public String setForm(@Login MemberDto loginMember, @PathVariable("memberId") Long memberId , @RequestParam("busSearch") String busNumber, BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         //경기도_버스노선 조회- 노선번호목록조회ㄹ.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
         // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
+
+        Member findMember = memberService.findById(memberId);
 
         String[][] busData = busNumber(busNumber);//노선목록을 쭉 세워두고 하나를 선택하게 한다.
         model.addAttribute("bus",busData);

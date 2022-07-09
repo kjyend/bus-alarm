@@ -20,6 +20,6 @@ public class Member {
     private String name;
     private String dob;
 
-    @OneToOne(mappedBy = "bus",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Bus bus;
 }

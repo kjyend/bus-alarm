@@ -18,4 +18,8 @@ public class MemberService {
         Member member = memberDto.toMemberEntity(memberDto);
         memberRepository.save(member);
     }
+
+    public Member findById(Long memberId) {
+        return findById(memberId);
+    }
 }

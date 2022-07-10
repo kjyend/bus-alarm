@@ -55,6 +55,7 @@ public class SettingController {
         log.info("logNumber={}",busDto.getBusNumber());
 
         busService.busSave(busDto);
+        log.info("logNumber={}",loginMember.getBus());
         return "redirect:";
     }
 

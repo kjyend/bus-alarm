@@ -20,6 +20,9 @@ public class Member {
     private String name;
     private String dob;
 
-    @OneToOne(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "b_id")
     private Bus bus;
+
+
 }

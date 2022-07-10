@@ -16,7 +16,7 @@ public class LoginService {
         Member member = memberDto.toMemberEntity(memberDto);
         Member member1 = memberRepository.findByLoginId(member.getLoginId()).filter(m -> m.getPassword().equals(member.getPassword())).orElse(null);
         if(member1!=null) {
-            return memberDto.toMemberDto(member1);// 일단 되기는 한다 null일때 toMemberDto에서 못받는다. 한번 봐야겠다.
+            return memberDto.toMemberDto(member1);
         }else{
             return null;
         }

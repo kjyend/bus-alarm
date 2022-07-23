@@ -1,7 +1,9 @@
 package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.AreaDto;
+import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.AreaService;
+import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -45,10 +47,11 @@ public class BusController {
     }
 
     @GetMapping("busStop")
-    public String busStopForm(AreaDto areaDto,Model model){
+    public String busStopForm(@Login MemberDto loginMember, AreaDto areaDto, Model model){
         model.addAttribute("busStationId",areaDto.getBusStationId());
         model.addAttribute("busStationName",areaDto.getBusStationName());
         model.addAttribute("busRoute", busRouteArr);
+
         return "bus/BusStop";
     }
     @PostMapping("busStop")

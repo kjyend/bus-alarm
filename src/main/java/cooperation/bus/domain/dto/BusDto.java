@@ -7,17 +7,19 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class BusDto {//builder만들기 다시해야한다.ㄷ
+public class BusDto {
 
     private String busNumber;//버스 번호(노선 번호)
     private String busId;//버스 노선id
     private String busArea;//현재 버스위치
+    private Member member;
 
     public BusDto toBusDto(Bus bus){//하나씩 따로 바는것도 생각해야한다.
         return BusDto.builder()
                 .busNumber(bus.getBusNumber())
                 .busId(bus.getBusId())
                 .busArea(bus.getBusArea())
+                .member(bus.getMember())
                 .build();
     }
 
@@ -27,6 +29,7 @@ public class BusDto {//builder만들기 다시해야한다.ㄷ
                 .busNumber(busDto.getBusNumber())
                 .busId(busDto.getBusId())
                 .busArea(busDto.getBusArea())
+                .member(busDto.getMember())
                 .build();
 
     }

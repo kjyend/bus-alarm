@@ -20,9 +20,5 @@ public class Member {
     private String name;
     private String dob;
 
-    @OneToOne
-    @JoinColumn(name = "b_id")
-    private Bus bus;
-
 
 }

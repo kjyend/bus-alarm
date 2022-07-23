@@ -14,7 +14,6 @@ public class MemberDto {
     private String password;
     private String name;
     private String dob;
-    private Bus bus;
 
 
     public MemberDto toMemberDto(Member member) {
@@ -23,7 +22,7 @@ public class MemberDto {
                 .password(member.getPassword())
                 .name(member.getName())
                 .dob(member.getDob())
-                .bus(member.getBus()).build();
+                .build();
     }
 
     public Member toMemberEntity(MemberDto memberDto){
@@ -32,7 +31,7 @@ public class MemberDto {
                 .password(memberDto.getPassword())
                 .name(memberDto.getName())
                 .dob(memberDto.getDob())
-                .bus(memberDto.getBus()).build();
+                .build();
     }
 
 }

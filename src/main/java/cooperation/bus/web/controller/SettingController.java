@@ -31,6 +31,7 @@ import java.io.BufferedReader;
 @Controller
 @RequiredArgsConstructor
 public class SettingController {
+    //member_id 값을 넣어야한다. builder값을 확인해야한다
 
     private final BusService busService;
 
@@ -42,6 +43,7 @@ public class SettingController {
         log.info("memberLogin11={}",loginMember.getLoginId());
         String[][] busData = busNumber(busNumber);//노선목록을 쭉 세워두고 하나를 선택하게 한다.
         model.addAttribute("bus",busData);
+        model.addAttribute("login",loginMember);
         return "bus/BusSetting";
     }
 
@@ -49,13 +51,13 @@ public class SettingController {
     public String setData(@Login MemberDto loginMember,BusDto busDto){//데이터를 저장이 안됨 일단 대기한다.
 
         log.info("memberLogin222={}",loginMember.getLoginId());
-        log.info("memberLogin222={}",loginMember.getBus());
+
         log.info("logId={}",busDto.getBusId());
         log.info("logArea={}",busDto.getBusArea());
         log.info("logNumber={}",busDto.getBusNumber());
 
         busService.busSave(busDto);
-        log.info("logNumber={}",loginMember.getBus());
+
         return "redirect:";
     }
 

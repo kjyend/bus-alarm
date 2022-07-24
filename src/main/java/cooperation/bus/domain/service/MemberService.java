@@ -27,6 +27,4 @@ public class MemberService {
     public void findLogin(String loginId){
         memberRepository.findByLoginId(loginId);
     }
-
-
 }

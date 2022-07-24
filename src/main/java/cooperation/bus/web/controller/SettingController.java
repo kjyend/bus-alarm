@@ -36,7 +36,7 @@ public class SettingController {
     private final BusService busService;
 
     @GetMapping("setting")//memberid값을 넣어야한다. 그리고 그 값으로 post를 저장해야한다. 그 값을 비교해서 노드값을 해서 웒하는값을 넣어야한다.
-    public String setForm(@Login MemberDto loginMember, @RequestParam("busSearch") String busNumber, BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+    public String setForm(@Login MemberDto loginMember, @RequestParam("busSearch") String busNumber, Model model) throws IOException, ParserConfigurationException, SAXException {
         //경기도_버스노선 조회- 노선번호목록조회ㄹ.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
         // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
 
@@ -55,6 +55,7 @@ public class SettingController {
         log.info("logId={}",busDto.getBusId());
         log.info("logArea={}",busDto.getBusArea());
         log.info("logNumber={}",busDto.getBusNumber());
+        log.info("logNumber={}",busDto.getMember());
 
         busService.busSave(busDto);
 

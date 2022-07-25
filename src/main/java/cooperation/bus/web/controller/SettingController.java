@@ -39,11 +39,13 @@ public class SettingController {
     public String setForm(@Login MemberDto loginMember, @RequestParam("busSearch") String busNumber, Model model) throws IOException, ParserConfigurationException, SAXException {
         //경기도_버스노선 조회- 노선번호목록조회ㄹ.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
         // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
+        //member값을 비교한다. 그런데 service에서 memberdto에서 member로 저장해야한다.
 
         log.info("memberLogin11={}",loginMember.getLoginId());
         String[][] busData = busNumber(busNumber);//노선목록을 쭉 세워두고 하나를 선택하게 한다.
         model.addAttribute("bus",busData);
         model.addAttribute("login",loginMember);
+        log.info("loginclass={}",loginMember.getClass());
         return "bus/BusSetting";
     }
 
@@ -55,7 +57,7 @@ public class SettingController {
         log.info("logId={}",busDto.getBusId());
         log.info("logArea={}",busDto.getBusArea());
         log.info("logNumber={}",busDto.getBusNumber());
-        log.info("logNumber={}",busDto.getMember());
+        log.info("logMember={}",busDto.getMember());
 
         busService.busSave(busDto);
 

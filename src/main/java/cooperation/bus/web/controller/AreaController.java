@@ -116,7 +116,7 @@ public class AreaController {
 
     public String busApi() throws IOException, ParserConfigurationException, SAXException {// 정류소경유노선 목록조회 (정확히 몇번 버스로 설정할것인지 판단+ 지도를 찍어서 주변 정류소+지나는 버스값을 얻는다.)
         //정류소Id를 가지고 노선 목록과 노선 아이디를 보넨다. +경기도 정류소 조회
-        //변수 -int busId
+        //변수 -int busNodeId
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busstationservice/getBusStationViaRouteList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/

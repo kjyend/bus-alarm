@@ -12,13 +12,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Member {
     @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
+
     @NotNull
     private String loginId;
     @NotNull
     private String password;
     private String name;
     private String dob;
+
 
 
 }

@@ -18,15 +18,14 @@ public class BusService {
     private final BusRepository busRepository;
     private final MemberRepository memberRepository;
 
-    public void busSave(BusDto busDto){
+    public void busSave(BusDto busDto,String memberId){
         Bus bus = busDto.toBusEntity(busDto);
+
+        Optional<Member> findMember = memberRepository.findByLoginId(memberId);
+        bus.putMember(findMember);
+
         busRepository.save(bus);
     }
-    public void findLogin(String loginId){//loginid을 확인한다.
-        //확인하고 있으면 busdto에 채워넣어야한다.
-        Optional<Member> memberLogin = memberRepository.findByLoginId(loginId);
 
-
-    }
 
 }

@@ -3,7 +3,6 @@ package cooperation.bus.web.controller;
 import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.BusService;
-import cooperation.bus.domain.service.MemberService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,12 +53,12 @@ public class SettingController {
 
         log.info("memberLogin222={}",loginMember.getLoginId());
 
-        log.info("logId={}",busDto.getBusId());
+        log.info("logId={}",busDto.getBusNodeId());
         log.info("logArea={}",busDto.getBusArea());
         log.info("logNumber={}",busDto.getBusNumber());
         log.info("logMember={}",busDto.getMember());
 
-        busService.busSave(busDto);
+        busService.busSave(busDto,loginMember.getLoginId());
 
         return "redirect:";
     }

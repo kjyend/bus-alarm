@@ -10,14 +10,14 @@ import lombok.Getter;
 public class BusDto {
 
     private String busNumber;//버스 번호(노선 번호)
-    private String busId;//버스 노선id
+    private String busNodeId;//버스 노선id
     private String busArea;//현재 버스위치
     private Member member;
 
     public BusDto toBusDto(Bus bus){//하나씩 따로 바는것도 생각해야한다.
         return BusDto.builder()
                 .busNumber(bus.getBusNumber())
-                .busId(bus.getBusId())
+                .busNodeId(bus.getBusNodeId())
                 .busArea(bus.getBusArea())
                 .member(bus.getMember())
                 .build();
@@ -27,7 +27,7 @@ public class BusDto {
     public Bus toBusEntity(BusDto busDto){
         return Bus.builder()
                 .busNumber(busDto.getBusNumber())
-                .busId(busDto.getBusId())
+                .busNodeId(busDto.getBusNodeId())
                 .busArea(busDto.getBusArea())
                 .member(busDto.getMember())
                 .build();

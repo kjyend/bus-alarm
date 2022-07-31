@@ -19,13 +19,24 @@ public class BusService {
     private final MemberRepository memberRepository;
 
     public void busSave(BusDto busDto,String memberId){
-        Bus bus = busDto.toBusEntity(busDto);
 
-        Optional<Member> findMember = memberRepository.findByLoginId(memberId);
-        bus.putMember(findMember);
+        if(busRepository.findAll().equals()!=null){
 
-        busRepository.save(bus);
+
+            Bus bus = busDto.toBusEntity(busDto);
+
+            Member findMember = memberRepository.findByLoginId(memberId).get();
+            bus.putMember(findMember);
+
+            busRepository.save(bus);
+        }else{
+            Bus bus = busDto.toBusEntity(busDto);
+
+            Member findMember = memberRepository.findByLoginId(memberId).get();
+            bus.putMember(findMember);
+
+            busRepository.save(bus);
+        }
+
     }
-
-
 }

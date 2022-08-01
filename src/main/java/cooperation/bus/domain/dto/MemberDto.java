@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 public class MemberDto {
 
+
     private String loginId;
     private String password;
     private String name;

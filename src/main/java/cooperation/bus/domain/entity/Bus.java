@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Optional;
+
 
 @Entity
 @Getter
@@ -27,8 +27,13 @@ public class Bus {// 버스 번호,노선id를 넣고,버스 위치
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public void putMember(Member member){
+    public void CreateMember(Member member){
          this.member=member;
     }
 
+    public void UpdateBus(String busNumber, String busNodeId, String busArea) {
+        this.busNumber = busNumber;
+        this.busNodeId = busNodeId;
+        this.busArea = busArea;
+    }
 }

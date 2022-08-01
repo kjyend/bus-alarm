@@ -9,8 +9,6 @@ import cooperation.bus.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class BusService {
@@ -20,20 +18,19 @@ public class BusService {
 
     public void busSave(BusDto busDto,String memberId){
 
-        if(busRepository.findAll().equals()!=null){
+        Member findMember = memberRepository.findByLoginId(memberId).get();
+        Bus busMember = busRepository.findByMember(findMember);
 
+        //파일을 저장해야하는데 하나의 값으로 저장해야한다. member값으로 비교해서 없으면 새로 저장 잇으면 update해야한다.
+        if(busMember!=null){
 
-            Bus bus = busDto.toBusEntity(busDto);
+            busMember.UpdateBus(busDto.getBusNumber(),busDto.getBusNodeId(),busDto.getBusArea());
 
-            Member findMember = memberRepository.findByLoginId(memberId).get();
-            bus.putMember(findMember);
-
-            busRepository.save(bus);
+            busRepository.save(busMember);
         }else{
             Bus bus = busDto.toBusEntity(busDto);
 
-            Member findMember = memberRepository.findByLoginId(memberId).get();
-            bus.putMember(findMember);
+            bus.CreateMember(findMember);
 
             busRepository.save(bus);
         }

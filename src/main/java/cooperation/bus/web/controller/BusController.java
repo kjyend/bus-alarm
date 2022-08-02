@@ -1,6 +1,7 @@
 package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.AreaDto;
+import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.AreaService;
 import cooperation.bus.web.argumentresolver.Login;
@@ -36,7 +37,8 @@ public class BusController {
     private static String[][] busRouteArr;
 
     @GetMapping("bus")//노드값을 받아야한다.+ 방향성을 선택해야한다.
-    public String busForm(AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+    public String busForm(AreaDto areaDto, BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+        log.info("확인={}",busDto.getBusNodeId());
         busRouteArr= busRoute("123");//busdto에있는 값을 넣줘야한다.
         model.addAttribute("busRoute",busRouteArr);
         return "bus/BusLive";

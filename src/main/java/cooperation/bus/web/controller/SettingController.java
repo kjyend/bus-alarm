@@ -44,23 +44,15 @@ public class SettingController {
         String[][] busData = busNumber(busNumber);//노선목록을 쭉 세워두고 하나를 선택하게 한다.
         model.addAttribute("bus",busData);
         model.addAttribute("login",loginMember);
-        log.info("loginclass={}",loginMember.getClass());
         return "bus/BusSetting";
     }
 
     @PostMapping("setting") //지금 일단 사용안한다.
     public String setData(@Login MemberDto loginMember,BusDto busDto){//데이터를 저장이 안됨 일단 대기한다.
 
-        log.info("memberLogin222={}",loginMember.getLoginId());
-
-        log.info("logId={}",busDto.getBusNodeId());
-        log.info("logArea={}",busDto.getBusArea());
-        log.info("logNumber={}",busDto.getBusNumber());
-        log.info("logMember={}",busDto.getMember());
-
         busService.busSave(busDto,loginMember.getLoginId());
 
-        return "redirect:";
+        return "redirect:/bus";
     }
 
     public String[][] busNumber(String busNum) throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.

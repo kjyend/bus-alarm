@@ -21,7 +21,6 @@ public class BusService {
         Member findMember = memberRepository.findByLoginId(memberId).get();
         Bus busMember = busRepository.findByMember(findMember);
 
-        //파일을 저장해야하는데 하나의 값으로 저장해야한다. member값으로 비교해서 없으면 새로 저장 잇으면 update해야한다.
         if(busMember!=null){
 
             busMember.UpdateBus(busDto.getBusNumber(),busDto.getBusNodeId(),busDto.getBusArea());

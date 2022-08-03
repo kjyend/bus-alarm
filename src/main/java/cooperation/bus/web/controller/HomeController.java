@@ -20,4 +20,13 @@ public class HomeController {
         return "LoginHome";
     }
 
+    @GetMapping("/bus")
+    public String busHomeForm(@Login MemberDto loginMember, BusDto busDto, Model model){
+        if (loginMember == null) {
+            return "Home";
+        }
+        model.addAttribute("bus",busDto);
+        return "LoginHome";
+    }
+
 }

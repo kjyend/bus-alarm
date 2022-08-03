@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -48,11 +49,11 @@ public class SettingController {
     }
 
     @PostMapping("setting") //지금 일단 사용안한다.
-    public String setData(@Login MemberDto loginMember,BusDto busDto){//데이터를 저장이 안됨 일단 대기한다.
+    public String setData(@Login MemberDto loginMember, BusDto busDto, RedirectAttributes redirectAttributes){//데이터를 저장이 안됨 일단 대기한다.
 
         busService.busSave(busDto,loginMember.getLoginId());
-
-        return "redirect:/bus";
+        redirectAttributes.addAttribute("busNodeId", busDto.getBusNodeId());
+        return "redirect:/bus/{busNodeId}";
     }
 
     public String[][] busNumber(String busNum) throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.

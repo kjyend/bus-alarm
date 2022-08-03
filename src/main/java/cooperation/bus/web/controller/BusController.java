@@ -36,19 +36,15 @@ public class BusController {
     private final AreaService areaService;
     private static String[][] busRouteArr;
 
-    @GetMapping("bus")//노드값을 받아야한다.+ 방향성을 선택해야한다.
+    @GetMapping("bus/{busNodeId}")//노드값을 받아야한다.+ 방향성을 선택해야한다.
     public String busForm(AreaDto areaDto, BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+        //노선 번호를 얻어야한다. 노선 번호를 얻으려면 다른 방ㅅ식으로 보내거나 find값으로 찾자
         log.info("확인={}",busDto.getBusNodeId());
-        busRouteArr= busRoute("123");//busdto에있는 값을 넣줘야한다.
+        busRouteArr= busRoute(busDto.getBusNodeId());//busdto에있는 값을 넣줘야한다.
         model.addAttribute("busRoute",busRouteArr);
         return "bus/BusLive";
     }
-    @PostMapping("bus")
-    public String areaData(){
-        return "redirect:";
-    }
-
-    @GetMapping("busStop")
+    @GetMapping("bus/busStop")
     public String busStopForm(@Login MemberDto loginMember, AreaDto areaDto, Model model){
         model.addAttribute("busStationId",areaDto.getBusStationId());
         model.addAttribute("busStationName",areaDto.getBusStationName());
@@ -56,7 +52,7 @@ public class BusController {
 
         return "bus/BusStop";
     }
-    @PostMapping("busStop")
+    @PostMapping("bus/busStop")
     public String busStopData(AreaDto areaDto){
         areaService.areaSave(areaDto);
         return "redirect:";
@@ -66,7 +62,7 @@ public class BusController {
         //1. 경기 버스 노선 조회- 2. 경유정류소목록조회 -(노선id넣고 정보 빼자 다뺄듯)
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteStationList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("routeId","UTF-8") + "=" + URLEncoder.encode("200000085", "UTF-8")); /*노선ID*/
+        urlBuilder.append("&" + URLEncoder.encode("routeId","UTF-8") + "=" + URLEncoder.encode(routeId, "UTF-8")); /*노선ID*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");

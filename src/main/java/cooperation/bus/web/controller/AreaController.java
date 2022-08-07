@@ -44,18 +44,21 @@ public class AreaController {
     public String areaForm(AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
         busStation();//버스정류장역 이름을 적는다.
+        log.info("123={}",areaDto.getBusStationName());
         model.addAttribute("area",areaDto);
         return "bus/BusData";
     }
 
     @PostMapping("area")
     public String areaData(AreaDto areaDto) throws IOException, ParserConfigurationException, SAXException {
+        //데이터를 보내야하는데 1.시작점 도착 버스 시간, 2.도착점 도착 버스 시간, 3.버스 번호
         return "redirect:";
     }
 
     public String busStation() throws IOException, ParserConfigurationException, SAXException {//경기도_버스도착정보 조회+버스도착정보목록조회
         //변수-String name
         //정류소명/번호 목록조회= 버스역을 적으면 값을 준다.
+        //정류소 id값을 비교해서 노선id를 넣어서 정류소 id값을 비교해서 시간값을 얻어야한다.
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busarrivalservice/getBusArrivalList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("stationId","UTF-8") + "=" + URLEncoder.encode("200000078", "UTF-8")); /*정류소ID*/
@@ -114,7 +117,7 @@ public class AreaController {
             }
         }
 
-        return "정류소 ID를 넣기";
+        return "데이터를 보내야한다.";
     }
 
 

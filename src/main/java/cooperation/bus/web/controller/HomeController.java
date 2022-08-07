@@ -28,5 +28,4 @@ public class HomeController {
         model.addAttribute("bus",busDto);
         return "LoginHome";
     }
-
 }

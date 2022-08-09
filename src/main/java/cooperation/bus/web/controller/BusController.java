@@ -37,7 +37,7 @@ public class BusController {
     private static String[][] busRouteArr;
 
     @GetMapping("bus/{busNodeId}")//노드값을 받아야한다.+ 방향성을 선택해야한다.
-    public String busForm(AreaDto areaDto, BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+    public String busForm(BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         //노선 번호를 얻어야한다. 노선 번호를 얻으려면 다른 방ㅅ식으로 보내거나 find값으로 찾자
         log.info("확인={}",busDto.getBusNodeId());
         busRouteArr= busRoute(busDto.getBusNodeId());//busdto에있는 값을 넣줘야한다.
@@ -45,9 +45,8 @@ public class BusController {
         return "bus/BusLive";
     }
     @GetMapping("bus/busStop")
-    public String busStopForm(@Login MemberDto loginMember, AreaDto areaDto, Model model){
-        model.addAttribute("busStationId",areaDto.getBusStationId());
-        model.addAttribute("busStationName",areaDto.getBusStationName());
+    public String busStopForm(@Login MemberDto loginMember, Model model){
+
         model.addAttribute("busRoute", busRouteArr);
 
         return "bus/BusStop";

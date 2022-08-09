@@ -41,8 +41,9 @@ public class AreaController {
     private final AreaService areaService;
 
     @GetMapping("area")
-    public String areaForm(AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+    public String areaForm(@Login MemberDto loginMember, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
+        //busrepository로 find하고 member값하고 areaRepository를 통해서 원하는 값을 얻는다.
         busStation();//버스정류장역 이름을 적는다.
         log.info("123={}",areaDto.getBusStationName());
         model.addAttribute("area",areaDto);

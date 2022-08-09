@@ -41,8 +41,7 @@
       <td th:text="${busRoutes[1]}"></td>
       <td>
         <form action="" method="post">
-          <input type="hidden" name="busStationId" th:value="${busStationId}">
-          <input type="hidden" name="busStationName" th:value="${busStationName}">
+
           <input type="hidden" name="busStopId" th:value="${busRoutes[0]}">
           <input type="hidden" name="busStopName" th:value="${busRoutes[1]}">
           <button type="submit" class=" btn btn-lg btn-primary" >선택</button>

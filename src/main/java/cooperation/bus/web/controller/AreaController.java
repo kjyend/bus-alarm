@@ -2,7 +2,9 @@ package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.AreaDto;
 import cooperation.bus.domain.dto.MemberDto;
+import cooperation.bus.domain.entity.Member;
 import cooperation.bus.domain.service.AreaService;
+import cooperation.bus.domain.service.BusService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +39,18 @@ public class AreaController {
     //시리얼통신을 이용하여 아두이노외 통신을 해야한다.
     //표시는 시작역 , 도착역, 버스번호, 각역의 도착시간을 해야한다. ㅁ
     //find값을 통해서 각각의 원하는 값을 얻어야한다. 다음으로
-    
+
+    private final BusService busService;
     private final AreaService areaService;
 
     @GetMapping("area")
     public String areaForm(@Login MemberDto loginMember, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
         //busrepository로 find하고 member값하고 areaRepository를 통해서 원하는 값을 얻는다.
+        Member busMember = busService.findMember(loginMember.getLoginId());
+
+
+
         busStation();//버스정류장역 이름을 적는다.
         log.info("123={}",areaDto.getBusStationName());
         model.addAttribute("area",areaDto);

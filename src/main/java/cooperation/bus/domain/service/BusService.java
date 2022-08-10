@@ -18,7 +18,7 @@ public class BusService {
 
     public void busSave(BusDto busDto,String memberId){
 
-        Member findMember = memberRepository.findByLoginId(memberId).get();
+        Member findMember = findMember(memberId);
         Bus busMember = busRepository.findByMember(findMember);
 
         if(busMember!=null){
@@ -29,10 +29,16 @@ public class BusService {
         }else{
             Bus bus = busDto.toBusEntity(busDto);
 
-            bus.CreateMember(findMember);
+            bus.CreateBusMember(findMember);
 
             busRepository.save(bus);
         }
 
     }
+
+    public Member findMember(String memberId) {
+        Member findMember = memberRepository.findByLoginId(memberId).get();
+        return findMember;
+    }
+
 }

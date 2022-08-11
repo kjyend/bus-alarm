@@ -27,4 +27,11 @@ public class Area {//일단은 노선 id, 노선 번호,내려야할 역,
     public Area() {
     }
 
+    public void UpdateArea(String busStationId,String busStationName,String busStopId,String busStopName){
+        this.busStationId=busStationId;
+        this.busStationName=busStationName;
+        this.busStopId=busStopId;
+        this.busStopName=busStopName;
+    }
+
 }

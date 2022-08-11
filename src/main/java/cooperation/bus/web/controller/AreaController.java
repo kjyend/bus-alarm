@@ -49,8 +49,6 @@ public class AreaController {
         //busrepository로 find하고 member값하고 areaRepository를 통해서 원하는 값을 얻는다.
         Member busMember = busService.findMember(loginMember.getLoginId());
 
-
-
         busStation();//버스정류장역 이름을 적는다.
         log.info("123={}",areaDto.getBusStationName());
         model.addAttribute("area",areaDto);

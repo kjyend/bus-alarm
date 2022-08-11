@@ -52,8 +52,8 @@ public class BusController {
         return "bus/BusStop";
     }
     @PostMapping("bus/busStop")
-    public String busStopData(AreaDto areaDto){
-        areaService.areaSave(areaDto);
+    public String busStopData(@Login MemberDto loginMember, AreaDto areaDto){
+        areaService.areaSave(areaDto,loginMember.getLoginId());
         return "redirect:";
     }
 

@@ -36,7 +36,7 @@ public class BusService {
 
     }
 
-    public Member findMember(String memberId) {
+    private Member findMember(String memberId) {
         Member findMember = memberRepository.findByLoginId(memberId).get();
         return findMember;
     }

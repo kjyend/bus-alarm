@@ -40,16 +40,18 @@ public class AreaController {
     //표시는 시작역 , 도착역, 버스번호, 각역의 도착시간을 해야한다. ㅁ
     //find값을 통해서 각각의 원하는 값을 얻어야한다. 다음으로
 
-    private final BusService busService;
+
     private final AreaService areaService;
 
     @GetMapping("area")
     public String areaForm(@Login MemberDto loginMember, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
         //busrepository로 find하고 member값하고 areaRepository를 통해서 원하는 값을 얻는다.
-        Member busMember = busService.findMember(loginMember.getLoginId());
+        //정류소 비교해서 원하는 시간을 얻어야한다.
 
-        busStation();//버스정류장역 이름을 적는다.
+        String stationId = areaService.CompareStationId(loginMember.getLoginId());
+
+        busStation(stationId);//버스정류장역 이름을 적는다.
         log.info("123={}",areaDto.getBusStationName());
         model.addAttribute("area",areaDto);
         return "bus/BusData";
@@ -61,7 +63,7 @@ public class AreaController {
         return "redirect:";
     }
 
-    public String busStation() throws IOException, ParserConfigurationException, SAXException {//경기도_버스도착정보 조회+버스도착정보목록조회
+    public String busStation(String id) throws IOException, ParserConfigurationException, SAXException {//경기도_버스도착정보 조회+버스도착정보목록조회
         //변수-String name
         //정류소명/번호 목록조회= 버스역을 적으면 값을 준다.
         //정류소 id값을 비교해서 노선id를 넣어서 정류소 id값을 비교해서 시간값을 얻어야한다.

@@ -17,7 +17,7 @@ public class AreaService {
 
     public void areaSave(AreaDto areaDto,String memberId){
 
-        Member findMember = memberRepository.findByLoginId(memberId).get();
+        Member findMember = findMember(memberId);
         Area areaMember = areaRepository.findByMember(findMember);
 
         if(areaMember!=null) {
@@ -37,5 +37,20 @@ public class AreaService {
         }
 
     }
+
+    private Member findMember(String memberId) {
+        Member findMember = memberRepository.findByLoginId(memberId).get();
+        return findMember;
+    }
+
+    public String CompareStationId(String loginId){
+        Member member = findMember(loginId);
+        Area byMember = areaRepository.findByMember(member);
+        if(byMember==null){
+            return null;
+        }
+        return byMember.getBusStopId();
+    }
+
 
 }

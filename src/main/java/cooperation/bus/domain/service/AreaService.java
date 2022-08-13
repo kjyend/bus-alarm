@@ -43,13 +43,22 @@ public class AreaService {
         return findMember;
     }
 
-    public String CompareStationId(String loginId){
+    public String findStopId(String loginId){
+        Member member = findMember(loginId);
+        Area byMember = areaRepository.findByMember(member);
+        if(byMember==null) {
+            return null;
+        }
+        return byMember.getBusStopId();
+    }
+
+    public String findStationId(String loginId){
         Member member = findMember(loginId);
         Area byMember = areaRepository.findByMember(member);
         if(byMember==null){
             return null;
         }
-        return byMember.getBusStopId();
+        return byMember.getBusStationId();
     }
 
 

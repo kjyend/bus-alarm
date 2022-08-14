@@ -40,7 +40,7 @@ public class AreaController {
     //표시는 시작역 , 도착역, 버스번호, 각역의 도착시간을 해야한다. ㅁ
     //find값을 통해서 각각의 원하는 값을 얻어야한다. 다음으로
 
-
+    private final BusService busService;
     private final AreaService areaService;
 
     @GetMapping("area")
@@ -52,9 +52,10 @@ public class AreaController {
 
         String stopId = areaService.findStopId(loginMember.getLoginId());
         String stationId = areaService.findStationId(loginMember.getLoginId());
+        //busservice에서 사용해야한다.노드 id를
+        String busNode = busService.nodeFind(loginMember.getLoginId());
 
-
-        busStation(stopId,stationId);
+        busStation(stopId,busNode);
         log.info("123={}",areaDto.getBusStationName());
         model.addAttribute("area",areaDto);
         return "bus/BusData";
@@ -66,7 +67,7 @@ public class AreaController {
         return "redirect:";
     }
 
-    public String busStation(String stopId,String stationId) throws IOException, ParserConfigurationException, SAXException {//경기도_버스도착정보 조회+버스도착정보목록조회
+    public String busStation(String stopId,String nodeId) throws IOException, ParserConfigurationException, SAXException {//경기도_버스도착정보 조회+버스도착정보목록조회
         //변수-String name
         //정류소명/번호 목록조회= 버스역을 적으면 값을 준다.
         //정류소 id값을 비교해서 노선id를 넣어서 정류소 id값을 비교해서 시간값을 얻어야한다.
@@ -110,20 +111,9 @@ public class AreaController {
         for(int i=0;i<nodeList.getLength();i++){
             NodeList childNodes = nodeList.item(i).getChildNodes();
             for (int j = 0; j < childNodes.getLength(); j++) {
-                if ("routeId".equals(childNodes.item(j).getNodeName())) {
-                    log.info("111={}", childNodes.item(j).getAttributes());
-                }
-                if ("stationId".equals(childNodes.item(j).getNodeName())) {
+                if (nodeId.equals(childNodes.item(j).getChildNodes())) {
                     log.info("212={}", childNodes.item(j).getChildNodes());
-                }
-                if ("staOrder".equals(childNodes.item(j).getNodeName())) {
-                    log.info("313={}", childNodes.item(j).getFirstChild());//값이 나온다.-key-value같이 나옴
-                }
-                if ("locationNo1".equals(childNodes.item(j).getNodeName())) {//정류소 얼마나 남았는가
-                    log.info("414={}", childNodes.item(j).getLastChild());//값이 나온다.-key-value같이 나옴
-                }
-                if ("predictTime1".equals(childNodes.item(j).getNodeName())) {//정류소에 얼마나 뒤에 오는가
-                    log.info("515={}", childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
+
                 }
             }
         }

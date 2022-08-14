@@ -41,4 +41,13 @@ public class BusService {
         return findMember;
     }
 
+    public String nodeFind(String memberId){
+        Member member = findMember(memberId);
+        Bus byMember = busRepository.findByMember(member);
+        if (byMember==null){
+            return null;
+        }
+        return byMember.getBusNodeId();
+    }
+
 }

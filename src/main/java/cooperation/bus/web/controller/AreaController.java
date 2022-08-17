@@ -54,10 +54,12 @@ public class AreaController {
         String stationId = areaService.findStationId(loginMember.getLoginId());
         //busservice에서 사용해야한다.노드 id를
         String busNode = busService.nodeFind(loginMember.getLoginId());
+        log.info("222={}",busNode);
 
-        busStation(stopId,busNode);
+        String startTime = busStation(stopId, busNode);
         log.info("123={}",areaDto.getBusStationName());
         model.addAttribute("area",areaDto);
+        model.addAttribute("startTime",startTime);
         return "bus/BusData";
     }
 
@@ -108,20 +110,19 @@ public class AreaController {
 
         NodeList nodeList = document.getElementsByTagName("busArrivalList");
 
+        String nextTime;
+
         for(int i=0;i<nodeList.getLength();i++){
             NodeList childNodes = nodeList.item(i).getChildNodes();
-            for (int j = 0; j < childNodes.getLength(); j++) {
-                if (nodeId.equals(childNodes.item(j).getChildNodes())) {
-                    log.info("212={}", childNodes.item(j).getChildNodes());
-
-                }
+            if (nodeId.equals(childNodes.item(11).getTextContent())) {
+                log.info("212={}", childNodes.item(7).getTextContent());
+                //j값으로 값을 얻어오고 시간값을 받고 그냥 넘겨준다. 그리고
+                //bus값을 통해서 원하는 번호를 받는다. 화면에 출력한다.
+                childNodes.item(7).getTextContent();
             }
         }
 
         return "데이터를 보내야한다.";
     }
-
-
-
 
 }

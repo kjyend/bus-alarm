@@ -58,13 +58,12 @@ public class AreaController {
 
         String startTime = busStation(stopId, busNode);
         log.info("123={}",areaDto.getBusStationName());
-        model.addAttribute("area",areaDto);
         model.addAttribute("startTime",startTime);
         return "bus/BusData";
     }
 
     @PostMapping("area")
-    public String areaData(AreaDto areaDto) throws IOException, ParserConfigurationException, SAXException {
+    public String areaData(AreaDto areaDto) {
         //데이터를 보내야하는데 1.시작점 도착 버스 시간, 2.도착점 도착 버스 시간, 3.버스 번호
         return "redirect:";
     }
@@ -110,7 +109,7 @@ public class AreaController {
 
         NodeList nodeList = document.getElementsByTagName("busArrivalList");
 
-        String nextTime;
+        String nextTime = null;
 
         for(int i=0;i<nodeList.getLength();i++){
             NodeList childNodes = nodeList.item(i).getChildNodes();
@@ -118,11 +117,11 @@ public class AreaController {
                 log.info("212={}", childNodes.item(7).getTextContent());
                 //j값으로 값을 얻어오고 시간값을 받고 그냥 넘겨준다. 그리고
                 //bus값을 통해서 원하는 번호를 받는다. 화면에 출력한다.
-                childNodes.item(7).getTextContent();
+                nextTime = childNodes.item(7).getTextContent();
             }
         }
 
-        return "데이터를 보내야한다.";
+        return nextTime;
     }
 
 }

@@ -15,6 +15,8 @@ public class AreaService {
     private final AreaRepository areaRepository;
     private final MemberRepository memberRepository;
 
+    //findMember을 통해서 원하는 값을 얻어내고 거기서 area값을 얻고 areaDto값을 변동해하고 반환
+
     public void areaSave(AreaDto areaDto,String memberId){
 
         Member findMember = findMember(memberId);

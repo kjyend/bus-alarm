@@ -6,10 +6,12 @@ import cooperation.bus.domain.entity.Member;
 import cooperation.bus.domain.repository.AreaRepository;
 import cooperation.bus.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AreaService {
 
     private final AreaRepository areaRepository;
@@ -61,6 +63,15 @@ public class AreaService {
             return null;
         }
         return byMember.getBusStationId();
+    }
+
+    public AreaDto findArea(String loginId){
+        Member member = findMember(loginId);
+        Area area = areaRepository.findByMember(member);
+        log.info("777={}",area.getBusStationId());
+        AreaDto areaDto = area.toAreaDto(area);
+        log.info("888={}",areaDto.getBusStationId());
+        return areaDto;
     }
 
 

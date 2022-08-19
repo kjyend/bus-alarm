@@ -1,5 +1,6 @@
 package cooperation.bus.domain.entity;
 
+import cooperation.bus.domain.dto.AreaDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +33,15 @@ public class Area {//일단은 노선 id, 노선 번호,내려야할 역,
         this.busStationName=busStationName;
         this.busStopId=busStopId;
         this.busStopName=busStopName;
+    }
+
+    public AreaDto toAreaDto(Area area){
+        return AreaDto.builder()
+                .busStationId(area.getBusStationId())
+                .busStopName(area.getBusStopName())
+                .busStopName(area.getBusStopName())
+                .busStopId(area.getBusStopId())
+                .member(area.getMember()).build();
     }
 
 }

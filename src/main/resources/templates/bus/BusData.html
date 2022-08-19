@@ -15,6 +15,13 @@
             transform: translate(-50%,-50%);
             z-index: 3;
         }
+        .button-mid2{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 3;
+        }
 
     </style>
 </head>
@@ -30,13 +37,11 @@
         </form>
     </div>
 </div>
-<div>
+<div class="button-mid2">
     <tr>
-        <th th:text=""></th>
-        <th th:text=""></th>
+        <th th:text="${startStation}"></th>
         <th th:text="${startTime}"></th>
-        <th th:text=""></th>
-        <th th:text=""></th>
+        <th th:text="${stopStation}"></th>
     </tr>
 </div>
 <div class="button-mid">

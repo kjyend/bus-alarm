@@ -57,8 +57,14 @@ public class AreaController {
         log.info("222={}",busNode);
 
         String startTime = busStation(stopId, busNode);
-        log.info("123={}",areaDto.getBusStationName());
+        AreaDto area = areaService.findArea(loginMember.getLoginId());
+        log.info("123={}",area.getBusStationId());
+        log.info("333={}",startTime);
+
+        model.addAttribute("startStation",area.getBusStationName());
+        model.addAttribute("stopStation",area.getBusStopName());
         model.addAttribute("startTime",startTime);
+
         return "bus/BusData";
     }
 

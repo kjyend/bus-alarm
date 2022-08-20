@@ -54,13 +54,18 @@ public class AreaController {
         String stationId = areaService.findStationId(loginMember.getLoginId());
         //busservice에서 사용해야한다.노드 id를
         String busNode = busService.nodeFind(loginMember.getLoginId());
+        String busNumber = busService.numberFind(loginMember.getLoginId());
         log.info("222={}",busNode);
 
         String startTime = busStation(stopId, busNode);
         AreaDto area = areaService.findArea(loginMember.getLoginId());
-        log.info("123={}",area.getBusStationId());
+        log.info("123={}",area.getBusStationName());
         log.info("333={}",startTime);
+        //startTime=null임, startstation이 갑자기 안낭온다.
+        //null값이 나온다면 다른 답으로 나오게 해야한다. ex) 버스 없음 
+        // 버스 번호 값을 추출하기
 
+        model.addAttribute("busNumber", busNumber);
         model.addAttribute("startStation",area.getBusStationName());
         model.addAttribute("stopStation",area.getBusStopName());
         model.addAttribute("startTime",startTime);

@@ -38,7 +38,7 @@ public class Area {//일단은 노선 id, 노선 번호,내려야할 역,
     public AreaDto toAreaDto(Area area){
         return AreaDto.builder()
                 .busStationId(area.getBusStationId())
-                .busStopName(area.getBusStopName())
+                .busStationName(area.getBusStationName())
                 .busStopName(area.getBusStopName())
                 .busStopId(area.getBusStopId())
                 .member(area.getMember()).build();

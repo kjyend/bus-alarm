@@ -38,11 +38,9 @@
     </div>
 </div>
 <div class="button-mid2">
-    <tr>
-        <th th:text="${startStation}"></th>
-        <th th:text="${startTime}"></th>
-        <th th:text="${stopStation}"></th>
-    </tr>
+    <div th:text="|버스 번호 : ${busNumber} 현재 버스 정류장 : ${startStation} 현재 정류장 버스 도착 시간 : ${startTime},
+    내릴 버스 정류장 : ${stopStation} 내릴 정류장 도착 시간 : ${startTime}|">
+    </div>
 </div>
 <div class="button-mid">
     <form method="post">

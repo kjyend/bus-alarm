@@ -68,9 +68,9 @@ public class AreaService {
     public AreaDto findArea(String loginId){
         Member member = findMember(loginId);
         Area area = areaRepository.findByMember(member);
-        log.info("777={}",area.getBusStationId());
+        log.info("777={}",area.getBusStationName());
         AreaDto areaDto = area.toAreaDto(area);
-        log.info("888={}",areaDto.getBusStationId());
+        log.info("888={}",areaDto.getBusStationName());
         return areaDto;
     }
 

@@ -58,12 +58,17 @@ public class AreaController {
         log.info("222={}",busNode);
 
         String startTime = busStation(stopId, busNode);
+        if(startTime==null){
+            startTime = "버스가 없습니다.";
+        }
         AreaDto area = areaService.findArea(loginMember.getLoginId());
+
         log.info("123={}",area.getBusStationName());
         log.info("333={}",startTime);
         //startTime=null임, startstation이 갑자기 안낭온다.
-        //null값이 나온다면 다른 답으로 나오게 해야한다. ex) 버스 없음 
-        // 버스 번호 값을 추출하기
+        //null값이 나온다면 다른 답으로 나오게 해야한다. ex) 버스 없음
+        //도착 역에서 시간을 받아야하는데 받을수 있다.
+        // 버스 번호 값을 추출하기 함
 
         model.addAttribute("busNumber", busNumber);
         model.addAttribute("startStation",area.getBusStationName());

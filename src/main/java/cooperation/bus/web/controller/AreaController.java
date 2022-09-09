@@ -2,7 +2,6 @@ package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.AreaDto;
 import cooperation.bus.domain.dto.MemberDto;
-import cooperation.bus.domain.entity.Member;
 import cooperation.bus.domain.service.AreaService;
 import cooperation.bus.domain.service.BusService;
 import cooperation.bus.web.argumentresolver.Login;

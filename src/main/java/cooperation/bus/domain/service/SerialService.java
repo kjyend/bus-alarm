@@ -1,10 +1,12 @@
 package cooperation.bus.domain.service;
 
+import cooperation.bus.domain.service.serialout.SerialWrite;
 import gnu.io.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 @Service
@@ -29,7 +31,16 @@ public class SerialService {
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);    //	오류제어 비트
             }
+
+            JSONObject jsonObject=new JSONObject();
+
+            JSONObject data = new JSONObject();
+            data.put("버스번호","버스");//나중에 호출해서 넣자.
+            data.put("정류소 이름","정류소");//나중에 호출해서 넣자.
+            data.put("버스 남은 시간","남은시간");//나중에 호출해서 넣자.
+
             OutputStream out = serialPort.getOutputStream();
+            out.write(data.size());
             new Thread(new SerialWrite(out)).start();
 
         }

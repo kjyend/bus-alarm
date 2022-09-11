@@ -2,6 +2,7 @@ package cooperation.bus.domain.service;
 
 import cooperation.bus.domain.service.serialout.SerialWrite;
 import gnu.io.*;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @Service
+@Slf4j
 public class SerialService {
+
+
 
     public void connect(String port) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
         CommPort commPort = null;
@@ -32,15 +36,17 @@ public class SerialService {
                         SerialPort.PARITY_NONE);    //	오류제어 비트
             }
 
-            JSONObject jsonObject=new JSONObject();
-
             JSONObject data = new JSONObject();
             data.put("버스번호","버스");//나중에 호출해서 넣자.
             data.put("정류소 이름","정류소");//나중에 호출해서 넣자.
             data.put("버스 남은 시간","남은시간");//나중에 호출해서 넣자.
 
+
             OutputStream out = serialPort.getOutputStream();
-            out.write(data.size());
+            out.write(data.toString().getBytes());
+            log.info("out={}",out.getClass());
+            log.info("out={}",out);
+            log.info("out={}",out.toString());
             new Thread(new SerialWrite(out)).start();
 
         }

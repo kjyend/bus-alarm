@@ -43,7 +43,12 @@
     </div>
 </div>
 <div class="button-mid">
-    <form method="post">
+    <form action="" method="post">
+        <input type="hidden" name="busNumber" th:value="${busNumber}">
+        <input type="hidden" name="busStationName" th:value="${startStation}">
+        <input type="hidden" name="startTime" th:value="${startTime}">
+        <input type="hidden" name="busStopName" th:value="${startStation}">
+        <input type="hidden" name="startTime" th:value="${startTime}">
         <button type="submit" class="btn btn-primary">데이터 보내기</button>
     </form>
 </div>

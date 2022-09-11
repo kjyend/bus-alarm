@@ -36,7 +36,7 @@ public class AreaController {
     //html에서 버스 어느 지역에 있는지 봐야하느데 조회하는거 0.스프링입문,34페이지 조회에서 본다.
     
     //시리얼통신을 이용하여 아두이노외 통신을 해야한다.
-    //표시는 시작역 , 도착역, 버스번호, 각역의 도착시간을 해야한다. ㅁ
+    //표시는 시작역 , 도착역, 버스번호, 각역의 도착시간을 해야한다.
     //find값을 통해서 각각의 원하는 값을 얻어야한다. 다음으로
 
     private final BusService busService;
@@ -80,6 +80,9 @@ public class AreaController {
     @PostMapping("area")
     public String areaData(AreaDto areaDto) {
         //데이터를 보내야하는데 1.시작점 도착 버스 시간, 2.도착점 도착 버스 시간, 3.버스 번호
+
+        //데이터 보내기
+
         return "redirect:";
     }
 
@@ -108,7 +111,6 @@ public class AreaController {
         }
         rd.close();
         conn.disconnect();
-        System.out.println(sb.toString());
 
         //빌더 팩토리 생성
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();

@@ -1,6 +1,5 @@
 package cooperation.bus.domain.service.serialout;
 
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;

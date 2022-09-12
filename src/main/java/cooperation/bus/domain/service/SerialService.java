@@ -1,9 +1,10 @@
 package cooperation.bus.domain.service;
 
+import cooperation.bus.domain.dto.AreaDto;
+import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.service.serialout.SerialWrite;
 import gnu.io.*;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,7 @@ import java.io.OutputStream;
 @Slf4j
 public class SerialService {
 
-
-
-    public void connect(String port) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
+    public void connect(String port, AreaDto areaDto, BusDto busDto) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
         CommPort commPort = null;
         SerialPort serialPort = null;
         CommPortIdentifier com = CommPortIdentifier.getPortIdentifier(port);
@@ -37,9 +36,9 @@ public class SerialService {
             }
 
             JSONObject data = new JSONObject();
-            data.put("버스번호","버스");//나중에 호출해서 넣자.
-            data.put("정류소 이름","정류소");//나중에 호출해서 넣자.
-            data.put("버스 남은 시간","남은시간");//나중에 호출해서 넣자.
+            data.put("버스번호",busDto.getBusNumber());//나중에 호출해서 넣자.
+            data.put("정류소 이름",areaDto.getBusStationName());//나중에 호출해서 넣자.
+            data.put("버스 남은 시간",areaDto.getBusStopName());//나중에 호출해서 넣자.
 
 
             OutputStream out = serialPort.getOutputStream();

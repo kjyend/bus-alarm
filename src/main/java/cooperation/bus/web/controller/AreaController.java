@@ -1,10 +1,15 @@
 package cooperation.bus.web.controller;
 
 import cooperation.bus.domain.dto.AreaDto;
+import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.AreaService;
 import cooperation.bus.domain.service.BusService;
+import cooperation.bus.domain.service.SerialService;
 import cooperation.bus.web.argumentresolver.Login;
+import gnu.io.NoSuchPortException;
+import gnu.io.PortInUseException;
+import gnu.io.UnsupportedCommOperationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -41,9 +46,10 @@ public class AreaController {
 
     private final BusService busService;
     private final AreaService areaService;
+    private final SerialService serialService;
 
     @GetMapping("area")
-    public String areaForm(@Login MemberDto loginMember, AreaDto areaDto, Model model) throws IOException, ParserConfigurationException, SAXException {
+    public String areaForm(@Login MemberDto loginMember, Model model) throws IOException, ParserConfigurationException, SAXException {
         //rxtx(시리얼통신)를 하는것도 생각해봐야한다. outstream으로 가능할것같다
         //busrepository로 find하고 member값하고 areaRepository를 통해서 원하는 값을 얻는다.
         //정류소 비교해서 원하는 시간을 얻어야한다.
@@ -78,10 +84,17 @@ public class AreaController {
     }
 
     @PostMapping("area")
-    public String areaData(AreaDto areaDto) {
+    public String areaData(BusDto busDto, AreaDto areaDto) throws UnsupportedCommOperationException, NoSuchPortException, PortInUseException, IOException {
         //데이터를 보내야하는데 1.시작점 도착 버스 시간, 2.도착점 도착 버스 시간, 3.버스 번호
 
-        //데이터 보내기
+        log.info("areaDto=={}",areaDto.getBusStationName());
+        log.info("areaDto=={}",areaDto.getBusStopId());
+        //데이터 보내기 시간을 이렇게 해서 보낼지 아니면 새로 뽑아서 할지
+//        String startTime = busStation(stopId, busNode);
+//        if(startTime==null){
+//            startTime = "버스가 없습니다.";
+//        } 
+        serialService.connect("COM5",areaDto,busDto);
 
         return "redirect:";
     }

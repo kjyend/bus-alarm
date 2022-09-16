@@ -15,7 +15,7 @@ import java.io.OutputStream;
 @Slf4j
 public class SerialService {
 
-    public void connect(String port, AreaDto areaDto, BusDto busDto) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
+    public void connect(String port, AreaDto areaDto, BusDto busDto,String startTime,String endTime) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
         CommPort commPort = null;
         SerialPort serialPort = null;
         CommPortIdentifier com = CommPortIdentifier.getPortIdentifier(port);
@@ -37,8 +37,10 @@ public class SerialService {
 
             JSONObject data = new JSONObject();
             data.put("버스번호",busDto.getBusNumber());//나중에 호출해서 넣자.
-            data.put("정류소 이름",areaDto.getBusStationName());//나중에 호출해서 넣자.
-            data.put("버스 남은 시간",areaDto.getBusStopName());//나중에 호출해서 넣자.
+            data.put("1번 정류소 이름",areaDto.getBusStationName());//나중에 호출해서 넣자.
+            data.put("1번 정류소 도착 시간", startTime);
+            data.put("2번 정류소 이름",areaDto.getBusStopName());//나중에 호출해서 넣자.
+            data.put("2번 정류소 도착 시간", endTime);
 
 
             OutputStream out = serialPort.getOutputStream();

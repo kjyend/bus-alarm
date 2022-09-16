@@ -35,18 +35,13 @@ import java.net.URLEncoder;
 @Slf4j
 public class AreaController {
 
-    //repository 
-    //service를 사용해서 원하는값 얻기
-    //시리얼통신을 통해서 outㅇ을한다. 끝 마무리한다.
-    //html에서 버스 어느 지역에 있는지 봐야하느데 조회하는거 0.스프링입문,34페이지 조회에서 본다.
-    
-    //시리얼통신을 이용하여 아두이노외 통신을 해야한다.
-    //표시는 시작역 , 도착역, 버스번호, 각역의 도착시간을 해야한다.
-    //find값을 통해서 각각의 원하는 값을 얻어야한다. 다음으로
-
     private final BusService busService;
     private final AreaService areaService;
     private final SerialService serialService;
+
+    String busNumber=null;
+    String startTime =null;
+    String endTime =null;
 
     @GetMapping("area")
     public String areaForm(@Login MemberDto loginMember, Model model) throws IOException, ParserConfigurationException, SAXException {
@@ -54,17 +49,29 @@ public class AreaController {
         //busrepository로 find하고 member값하고 areaRepository를 통해서 원하는 값을 얻는다.
         //정류소 비교해서 원하는 시간을 얻어야한다.
         //이제 html에서 데이터를 보는역활을 해야하낟.
+        if(startTime!=null){
+            startTime=null;
+            endTime=null;
+        }
 
-        String stopId = areaService.findStopId(loginMember.getLoginId());
         String stationId = areaService.findStationId(loginMember.getLoginId());
+        String stopId = areaService.findStopId(loginMember.getLoginId());
+
         //busservice에서 사용해야한다.노드 id를
         String busNode = busService.nodeFind(loginMember.getLoginId());
+
         String busNumber = busService.numberFind(loginMember.getLoginId());
         log.info("222={}",busNode);
 
-        String startTime = busStation(stopId, busNode);
+        startTime = busStation(stationId, busNode);
         if(startTime==null){
             startTime = "버스가 없습니다.";
+            endTime= "버스가 없습니다.";
+        }else {
+            endTime = busStation(stopId, busNode);
+        }
+        if(endTime==null){
+            endTime = "버스가 없습니다.";
         }
         AreaDto area = areaService.findArea(loginMember.getLoginId());
 
@@ -79,6 +86,7 @@ public class AreaController {
         model.addAttribute("startStation",area.getBusStationName());
         model.addAttribute("stopStation",area.getBusStopName());
         model.addAttribute("startTime",startTime);
+        model.addAttribute("endTime",endTime);
 
         return "bus/BusData";
     }
@@ -94,7 +102,7 @@ public class AreaController {
 //        if(startTime==null){
 //            startTime = "버스가 없습니다.";
 //        } 
-        serialService.connect("COM5",areaDto,busDto);
+        serialService.connect("COM5",areaDto,busDto,startTime,endTime);
 
         return "redirect:";
     }
@@ -141,13 +149,41 @@ public class AreaController {
 
         String nextTime = null;
 
-        for(int i=0;i<nodeList.getLength();i++){
-            NodeList childNodes = nodeList.item(i).getChildNodes();
-            if (nodeId.equals(childNodes.item(11).getTextContent())) {
-                log.info("212={}", childNodes.item(7).getTextContent());
-                //j값으로 값을 얻어오고 시간값을 받고 그냥 넘겨준다. 그리고
-                //bus값을 통해서 원하는 번호를 받는다. 화면에 출력한다.
-                nextTime = childNodes.item(7).getTextContent();
+        if(startTime==null){
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                NodeList childNodes = nodeList.item(i).getChildNodes();
+                if (nodeId.equals(childNodes.item(11).getTextContent())) {
+                    log.info("222221={}", childNodes.item(5).getTextContent());
+                    log.info("222222={}", childNodes.item(6).getTextContent());
+                    log.info("222223={}", childNodes.item(7).getTextContent());
+                    log.info("222224={}", childNodes.item(8).getTextContent());
+                    //j값으로 값을 얻어오고 시간값을 받고 그냥 넘겨준다. 그리고
+                    //bus값을 통해서 원하는 번호를 받는다. 화면에 출력한다.
+                    busNumber = childNodes.item(5).getTextContent();
+                    nextTime = childNodes.item(7).getTextContent();
+                }
+            }
+        }else {
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                NodeList childNodes = nodeList.item(i).getChildNodes();
+                if (nodeId.equals(childNodes.item(11).getTextContent())) {
+                    log.info("111111={}", childNodes.item(5).getTextContent());
+                    log.info("111112={}", childNodes.item(6).getTextContent());
+                    log.info("111113={}", childNodes.item(7).getTextContent());
+                    log.info("111114={}", childNodes.item(8).getTextContent());
+                    log.info("333333={}",busNumber);
+
+                    //j값으로 값을 얻어오고 시간값을 받고 그냥 넘겨준다. 그리고
+                    //bus값을 통해서 원하는 번호를 받는다. 화면에 출력한다.
+                    if(busNumber.equals(childNodes.item(5).getTextContent())){
+                        nextTime = childNodes.item(7).getTextContent();
+                    }else if(busNumber.equals(childNodes.item(6).getTextContent())){
+                        nextTime=childNodes.item(8).getTextContent();
+                    }else {
+                        nextTime="시간을 구하지 못했습니다.";
+                    }
+
+                }
             }
         }
 

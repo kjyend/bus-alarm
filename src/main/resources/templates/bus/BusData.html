@@ -39,7 +39,7 @@
 </div>
 <div class="button-mid2">
     <div th:text="|버스 번호 : ${busNumber} 현재 버스 정류장 : ${startStation} 현재 정류장 버스 도착 시간 : ${startTime},
-    내릴 버스 정류장 : ${stopStation} 내릴 정류장 도착 시간 : ${startTime}|">
+    내릴 버스 정류장 : ${stopStation} 내릴 정류장 도착 시간 : ${endTime}|">
     </div>
 </div>
 <div class="button-mid">
@@ -47,8 +47,8 @@
         <input type="hidden" name="busNumber" th:value="${busNumber}">
         <input type="hidden" name="busStationName" th:value="${startStation}">
         <input type="hidden" name="startTime" th:value="${startTime}">
-        <input type="hidden" name="busStopName" th:value="${startStation}">
-        <input type="hidden" name="startTime" th:value="${startTime}">
+        <input type="hidden" name="busStopName" th:value="${stopStation}">
+        <input type="hidden" name="startTime" th:value="${endTime}">
         <button type="submit" class="btn btn-primary">데이터 보내기</button>
     </form>
 </div>

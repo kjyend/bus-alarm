@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.OutputStream;
 
+//자바빈으로 등록해줘야한다.
 @Service
 @Slf4j
 public class SerialService {
@@ -36,18 +37,13 @@ public class SerialService {
             }
 
             JSONObject data = new JSONObject();
-            data.put("버스번호",busDto.getBusNumber());//나중에 호출해서 넣자.
-            data.put("1번 정류소 이름",areaDto.getBusStationName());//나중에 호출해서 넣자.
-            data.put("1번 정류소 도착 시간", startTime);
-            data.put("2번 정류소 이름",areaDto.getBusStopName());//나중에 호출해서 넣자.
-            data.put("2번 정류소 도착 시간", endTime);
+            data.put("BusNumber",busDto.getBusNumber());//나중에 호출해서 넣자.
+            data.put("LeftBusTime", startTime);
+            data.put("ArriveTime", endTime);
 
-
+            log.info("={}",data);
             OutputStream out = serialPort.getOutputStream();
             out.write(data.toString().getBytes());
-            log.info("out={}",out.getClass());
-            log.info("out={}",out);
-            log.info("out={}",out.toString());
             new Thread(new SerialWrite(out)).start();
 
         }

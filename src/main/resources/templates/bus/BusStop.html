@@ -27,27 +27,27 @@
 <div class="container">
   <table class="table">
     <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">stationId</th>
-      <th scope="col">stationName</th>
-      <th scope="col">내릴 정류소를 선택해주세요</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="busRoutes,i :${busRoute}">
-      <th scope="row" th:text="${i.index+1}"></th>
-      <td th:text="${busRoutes[0]}"></td>
-      <td th:text="${busRoutes[1]}"></td>
-      <td>
-        <form action="" method="post">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">stationId</th>
+        <th scope="col">stationName</th>
+        <th scope="col">내릴 정류소를 선택해주세요</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="busRoutes,i :${busRoute}">
+        <th scope="row" th:text="${i.index+1}"></th>
+        <td th:text="${busRoutes[0]}"></td>
+        <td th:text="${busRoutes[1]}"></td>
+        <td>
+          <form action="" method="post">
 
-          <input type="hidden" name="busStopId" th:value="${busRoutes[0]}">
-          <input type="hidden" name="busStopName" th:value="${busRoutes[1]}">
-          <button type="submit" class=" btn btn-lg btn-primary" >선택</button>
-        </form>
-      </td>
-    </tr>
+            <input type="hidden" name="busStopId" th:value="${busRoutes[0]}">
+            <input type="hidden" name="busStopName" th:value="${busRoutes[1]}">
+            <button type="submit" class=" btn btn-lg btn-primary" >선택</button>
+          </form>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

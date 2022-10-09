@@ -98,11 +98,8 @@ public class AreaController {
         log.info("areaDto=={}",areaDto.getBusStationName());
         log.info("areaDto=={}",areaDto.getBusStopId());
         //데이터 보내기 시간을 이렇게 해서 보낼지 아니면 새로 뽑아서 할지
-//        String startTime = busStation(stopId, busNode);
-//        if(startTime==null){
-//            startTime = "버스가 없습니다.";
-//        } 
-        serialService.connect("COM5",areaDto,busDto,startTime,endTime);
+
+        serialService.connect("COM3",areaDto,busDto,startTime,endTime);
 
         return "redirect:";
     }

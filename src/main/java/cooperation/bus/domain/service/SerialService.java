@@ -4,16 +4,12 @@ import cooperation.bus.domain.dto.AreaDto;
 import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.service.serialout.SerialWrite;
 import gnu.io.*;
-import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 //자바빈으로 등록해줘야한다.
-@Service
-@Slf4j
 public class SerialService {
 
     public void connect(String port, AreaDto areaDto, BusDto busDto,String startTime,String endTime) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
@@ -41,7 +37,6 @@ public class SerialService {
             data.put("LeftBusTime", startTime);
             data.put("ArriveTime", endTime);
 
-            log.info("={}",data);
             OutputStream out = serialPort.getOutputStream();
             out.write(data.toString().getBytes());
             new Thread(new SerialWrite(out)).start();

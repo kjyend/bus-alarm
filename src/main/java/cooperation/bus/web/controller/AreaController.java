@@ -37,7 +37,7 @@ public class AreaController {
 
     private final BusService busService;
     private final AreaService areaService;
-    private final SerialService serialService;
+    private final SerialService serial;
 
     String busNumber=null;
     String startTime =null;
@@ -99,7 +99,7 @@ public class AreaController {
         log.info("areaDto=={}",areaDto.getBusStopId());
         //데이터 보내기 시간을 이렇게 해서 보낼지 아니면 새로 뽑아서 할지
 
-        serialService.connect("COM3",areaDto,busDto,startTime,endTime);
+        serial.connect("COM3",areaDto,busDto,startTime,endTime);
 
         return "redirect:";
     }

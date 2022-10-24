@@ -99,8 +99,13 @@ public class AreaController {
         log.info("areaDto=={}",areaDto.getBusStopId());
         //데이터 보내기 시간을 이렇게 해서 보낼지 아니면 새로 뽑아서 할지
 
-        serial.connect("COM3",areaDto,busDto,startTime,endTime);
-
+        if(startTime.equals("버스가 없습니다.")){
+            startTime="0";
+            endTime="0";
+            serial.connect("COM3", "0", startTime, endTime);
+        }else {
+            serial.connect("COM3", busDto.getBusNumber(), startTime, endTime);
+        }
         return "redirect:";
     }
 

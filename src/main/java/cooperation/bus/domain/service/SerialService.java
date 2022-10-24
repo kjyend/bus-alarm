@@ -12,7 +12,7 @@ import java.io.OutputStream;
 //자바빈으로 등록해줘야한다.
 public class SerialService {
 
-    public void connect(String port, AreaDto areaDto, BusDto busDto,String startTime,String endTime) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
+    public void connect(String port,String busNumber,String startTime,String endTime) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
         CommPort commPort = null;
         SerialPort serialPort = null;
         CommPortIdentifier com = CommPortIdentifier.getPortIdentifier(port);
@@ -31,11 +31,14 @@ public class SerialService {
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);    //	오류제어 비트
             }
+            int noBus = Integer.parseInt(busNumber);
+            int start = Integer.parseInt(startTime);
+            int end = Integer.parseInt(endTime);
 
             JSONObject data = new JSONObject();
-            data.put("BusNumber",busDto.getBusNumber());//나중에 호출해서 넣자.
-            data.put("LeftBusTime", startTime);
-            data.put("ArriveTime", endTime);
+            data.put("BusNumber",noBus);//나중에 호출해서 넣자.
+            data.put("LeftBusTime", start);
+            data.put("ArriveTime", end);
 
             OutputStream out = serialPort.getOutputStream();
             out.write(data.toString().getBytes());

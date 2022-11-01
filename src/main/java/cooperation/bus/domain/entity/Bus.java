@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bus {// 버스 번호,노선id를 넣고,버스 위치
+public class Bus {
 
     @Id @GeneratedValue
     @Column(name = "bus_id")

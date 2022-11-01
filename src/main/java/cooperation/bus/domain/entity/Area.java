@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @AllArgsConstructor
-public class Area {//일단은 노선 id, 노선 번호,내려야할 역,
+public class Area {
     @Id @GeneratedValue
     private Long id;
     private String busStationName;//현재 정류소 이름

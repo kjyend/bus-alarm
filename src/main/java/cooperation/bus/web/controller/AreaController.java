@@ -93,11 +93,6 @@ public class AreaController {
 
     @PostMapping("area")
     public String areaData(BusDto busDto, AreaDto areaDto) throws UnsupportedCommOperationException, NoSuchPortException, PortInUseException, IOException {
-        //데이터를 보내야하는데 1.시작점 도착 버스 시간, 2.도착점 도착 버스 시간, 3.버스 번호
-
-        log.info("areaDto=={}",areaDto.getBusStationName());
-        log.info("areaDto=={}",areaDto.getBusStopId());
-        //데이터 보내기 시간을 이렇게 해서 보낼지 아니면 새로 뽑아서 할지
 
         if(startTime.equals("버스가 없습니다.")){
             startTime="0";
@@ -109,10 +104,8 @@ public class AreaController {
         return "redirect:";
     }
 
-    public String busStation(String stopId,String nodeId) throws IOException, ParserConfigurationException, SAXException {//경기도_버스도착정보 조회+버스도착정보목록조회
-        //변수-String name
-        //정류소명/번호 목록조회= 버스역을 적으면 값을 준다.
-        //정류소 id값을 비교해서 노선id를 넣어서 정류소 id값을 비교해서 시간값을 얻어야한다.
+    public String busStation(String stopId,String nodeId) throws IOException, ParserConfigurationException, SAXException {
+        //경기도_버스도착정보 조회+버스도착정보목록조회
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busarrivalservice/getBusArrivalList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("stationId","UTF-8") + "=" + URLEncoder.encode(stopId, "UTF-8")); /*정류소ID*/
@@ -155,12 +148,6 @@ public class AreaController {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 NodeList childNodes = nodeList.item(i).getChildNodes();
                 if (nodeId.equals(childNodes.item(11).getTextContent())) {
-                    log.info("222221={}", childNodes.item(5).getTextContent());
-                    log.info("222222={}", childNodes.item(6).getTextContent());
-                    log.info("222223={}", childNodes.item(7).getTextContent());
-                    log.info("222224={}", childNodes.item(8).getTextContent());
-                    //j값으로 값을 얻어오고 시간값을 받고 그냥 넘겨준다. 그리고
-                    //bus값을 통해서 원하는 번호를 받는다. 화면에 출력한다.
                     busNumber = childNodes.item(5).getTextContent();
                     nextTime = childNodes.item(7).getTextContent();
                 }
@@ -169,14 +156,6 @@ public class AreaController {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 NodeList childNodes = nodeList.item(i).getChildNodes();
                 if (nodeId.equals(childNodes.item(11).getTextContent())) {
-                    log.info("111111={}", childNodes.item(5).getTextContent());
-                    log.info("111112={}", childNodes.item(6).getTextContent());
-                    log.info("111113={}", childNodes.item(7).getTextContent());
-                    log.info("111114={}", childNodes.item(8).getTextContent());
-                    log.info("333333={}",busNumber);
-
-                    //j값으로 값을 얻어오고 시간값을 받고 그냥 넘겨준다. 그리고
-                    //bus값을 통해서 원하는 번호를 받는다. 화면에 출력한다.
                     if(busNumber.equals(childNodes.item(5).getTextContent())){
                         nextTime = childNodes.item(7).getTextContent();
                     }else if(busNumber.equals(childNodes.item(6).getTextContent())){

@@ -31,13 +31,12 @@ import java.io.BufferedReader;
 @Controller
 @RequiredArgsConstructor
 public class SettingController {
-    //member_id 값을 넣어야한다. builder값을 확인해야한다
 
     private final BusService busService;
 
-    @GetMapping("setting")//memberid값을 넣어야한다. 그리고 그 값으로 post를 저장해야한다. 그 값을 비교해서 노드값을 해서 웒하는값을 넣어야한다.
+    @GetMapping("setting")
     public String setForm(@Login MemberDto loginMember, @RequestParam("busSearch") String busNumber, Model model) throws IOException, ParserConfigurationException, SAXException {
-        //경기도_버스노선 조회- 노선번호목록조회ㄹ.) (그리고 현 위치를 알아내고 전 라인을 알아내는걸 봐야한다., 노선번호 넣고 노선id를 얻는다.
+        //경기도_버스노선 조회- 노선번호목록조회
         // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
         //member값을 비교한다. 그런데 service에서 memberdto에서 member로 저장해야한다.
 
@@ -48,15 +47,14 @@ public class SettingController {
         return "bus/BusSetting";
     }
 
-    @PostMapping("setting") //지금 일단 사용안한다.
-    public String setData(@Login MemberDto loginMember, BusDto busDto, RedirectAttributes redirectAttributes){//데이터를 저장이 안됨 일단 대기한다.
-
+    @PostMapping("setting")
+    public String setData(@Login MemberDto loginMember, BusDto busDto, RedirectAttributes redirectAttributes){
         busService.busSave(busDto,loginMember.getLoginId());
         redirectAttributes.addAttribute("busNodeId", busDto.getBusNodeId());
         return "redirect:/bus/{busNodeId}";
     }
 
-    public String[][] busNumber(String busNum) throws IOException, ParserConfigurationException, SAXException {//노선이름 적고 얻어온다.
+    public String[][] busNumber(String busNum) throws IOException, ParserConfigurationException, SAXException {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("keyword", "UTF-8") + "=" + URLEncoder.encode(busNum, "UTF-8")); /*노선번호*/
@@ -98,15 +96,12 @@ public class SettingController {
             NodeList childNodes = nodeList.item(temp).getChildNodes();
             for (int j = 0; j < childNodes.getLength(); j++) {
                 if ("regionName".equals(childNodes.item(j).getNodeName())) {
-                    log.info("1={}", childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
                     arr[temp][0] = childNodes.item(j).getTextContent();
                 }
                 if ("routeId".equals(childNodes.item(j).getNodeName())) {
-                    log.info("2={}", childNodes.item(j).getTextContent());//값이 나온다.-key-value같이 나옴
                     arr[temp][1] = childNodes.item(j).getTextContent();
                 }
                 if ("routeName".equals(childNodes.item(j).getNodeName())) {
-                    log.info("3={}", childNodes.item(j).getTextContent());//값이 나온다.-key-value같이 나옴
                     arr[temp][2] = childNodes.item(j).getTextContent();
                 }
             }

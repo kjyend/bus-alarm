@@ -57,8 +57,8 @@ public class BusController {
         return "redirect:";
     }
 
-    public String[][] busRoute(String routeId) throws IOException, ParserConfigurationException, SAXException {//routeId 노선id이다.
-        //1. 경기 버스 노선 조회- 2. 경유정류소목록조회 -(노선id넣고 정보 빼자 다뺄듯)
+    public String[][] busRoute(String routeId) throws IOException, ParserConfigurationException, SAXException {
+        //1. 경기 버스 노선 조회- 경유정류소목록조회
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteStationList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("routeId","UTF-8") + "=" + URLEncoder.encode(routeId, "UTF-8")); /*노선ID*/
@@ -101,11 +101,9 @@ public class BusController {
             NodeList childNodes=nodeList.item(temp).getChildNodes();
             for(int j=0;j<childNodes.getLength();j++) {
                 if ("stationId".equals(childNodes.item(j).getNodeName())) {
-                    log.info("1={}", childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
                     arr[temp][0] = childNodes.item(j).getTextContent();
                 }
                 if ("stationName".equals(childNodes.item(j).getNodeName())) {
-                    log.info("1={}", childNodes.item(j).getTextContent());//값이 나온다.-value만나옴
                     arr[temp][1] = childNodes.item(j).getTextContent();
                 }
             }

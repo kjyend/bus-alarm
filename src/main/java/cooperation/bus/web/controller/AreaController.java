@@ -11,7 +11,6 @@ import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +31,6 @@ import java.net.URLEncoder;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class AreaController {
 
     private final BusService busService;
@@ -61,7 +59,6 @@ public class AreaController {
         String busNode = busService.nodeFind(loginMember.getLoginId());
 
         String busNumber = busService.numberFind(loginMember.getLoginId());
-        log.info("222={}",busNode);
 
         startTime = busStation(stationId, busNode);
         if(startTime==null){
@@ -75,8 +72,6 @@ public class AreaController {
         }
         AreaDto area = areaService.findArea(loginMember.getLoginId());
 
-        log.info("123={}",area.getBusStationName());
-        log.info("333={}",startTime);
         //startTime=null임, startstation이 갑자기 안낭온다.
         //null값이 나온다면 다른 답으로 나오게 해야한다. ex) 버스 없음
         //도착 역에서 시간을 받아야하는데 받을수 있다.
@@ -94,7 +89,7 @@ public class AreaController {
     @PostMapping("area")
     public String areaData(BusDto busDto, AreaDto areaDto) throws UnsupportedCommOperationException, NoSuchPortException, PortInUseException, IOException {
 
-        if(startTime.equals("버스가 없습니다.")){
+        if(startTime.equals("버스가 없습니다.")||endTime.equals("버스가 없습니다.")){
             startTime="0";
             endTime="0";
             serial.connect("COM3", "0", startTime, endTime);

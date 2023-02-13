@@ -5,7 +5,6 @@ import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.BusService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.io.BufferedReader;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class SettingController {
@@ -40,7 +38,6 @@ public class SettingController {
         // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
         //member값을 비교한다. 그런데 service에서 memberdto에서 member로 저장해야한다.
 
-        log.info("memberLogin11={}",loginMember.getLoginId());
         String[][] busData = busNumber(busNumber);//노선목록을 쭉 세워두고 하나를 선택하게 한다.
         model.addAttribute("bus",busData);
         model.addAttribute("login",loginMember);

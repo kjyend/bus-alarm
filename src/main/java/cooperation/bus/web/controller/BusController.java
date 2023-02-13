@@ -6,7 +6,6 @@ import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.AreaService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +26,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class BusController {
@@ -39,7 +36,6 @@ public class BusController {
     @GetMapping("bus/{busNodeId}")//노드값을 받아야한다.+ 방향성을 선택해야한다.
     public String busForm(BusDto busDto, Model model) throws IOException, ParserConfigurationException, SAXException {
         //노선 번호를 얻어야한다. 노선 번호를 얻으려면 다른 방ㅅ식으로 보내거나 find값으로 찾자
-        log.info("확인={}",busDto.getBusNodeId());
         busRouteArr= busRoute(busDto.getBusNodeId());//busdto에있는 값을 넣줘야한다.
         model.addAttribute("busRoute",busRouteArr);
         return "bus/BusLive";

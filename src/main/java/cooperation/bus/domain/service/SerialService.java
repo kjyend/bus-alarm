@@ -1,7 +1,5 @@
 package cooperation.bus.domain.service;
 
-import cooperation.bus.domain.dto.AreaDto;
-import cooperation.bus.domain.dto.BusDto;
 import cooperation.bus.domain.service.serialout.SerialWrite;
 import gnu.io.*;
 import org.json.simple.JSONObject;
@@ -9,7 +7,7 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.io.OutputStream;
 
-//자바빈으로 등록해줘야한다.
+
 public class SerialService {
 
     public void connect(String port,String busNumber,String startTime,String endTime) throws NoSuchPortException, PortInUseException, UnsupportedCommOperationException, IOException{
@@ -36,14 +34,18 @@ public class SerialService {
             int end = Integer.parseInt(endTime);
 
             JSONObject data = new JSONObject();
-            data.put("BusNumber",noBus);//나중에 호출해서 넣자.
+
+            data.put("BusNumber",noBus); //나중에 호출해서 넣자.
             data.put("LeftBusTime", start);
             data.put("ArriveTime", end);
 
-            OutputStream out = serialPort.getOutputStream();
-            out.write(data.toString().getBytes());
-            new Thread(new SerialWrite(out)).start();
+            String s = data.toJSONString();
 
+            OutputStream out = serialPort.getOutputStream();
+            out.write(s.getBytes());
+            new Thread(new SerialWrite(out)).start();
+            serialPort.removeEventListener();
+            serialPort.close();
         }
     }
 }

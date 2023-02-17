@@ -7,9 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id @GeneratedValue
     @Column(name = "member_id")
@@ -22,6 +20,12 @@ public class Member {
     private String name;
     private String dob;
 
-
-
+    @Builder
+    public Member(Long id, String loginId, String password, String name, String dob) {
+        this.id = id;
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.dob = dob;
+    }
 }

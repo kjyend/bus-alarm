@@ -1,18 +1,14 @@
 package cooperation.bus.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Entity
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bus {
 
     @Id @GeneratedValue
@@ -26,6 +22,15 @@ public class Bus {
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder
+    public Bus(Long id, String busNumber, String busNodeId, String busArea, Member member) {
+        this.id = id;
+        this.busNumber = busNumber;
+        this.busNodeId = busNodeId;
+        this.busArea = busArea;
+        this.member = member;
+    }
 
     public void CreateBusMember(Member member){
          this.member=member;

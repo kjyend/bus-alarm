@@ -1,16 +1,13 @@
 package cooperation.bus.domain.entity;
 
 import cooperation.bus.domain.dto.AreaDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Area {
     @Id @GeneratedValue
     private Long id;
@@ -25,7 +22,14 @@ public class Area {
 
     public void CreateAreaMember(Member member){this.member=member;}
 
-    public Area() {
+    @Builder
+    public Area(Long id, String busStationName, String busStationId, String busStopName, String busStopId, Member member) {
+        this.id = id;
+        this.busStationName = busStationName;
+        this.busStationId = busStationId;
+        this.busStopName = busStopName;
+        this.busStopId = busStopId;
+        this.member = member;
     }
 
     public void UpdateArea(String busStationId,String busStationName,String busStopId,String busStopName){

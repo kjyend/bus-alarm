@@ -5,6 +5,7 @@ import cooperation.bus.domain.dto.MemberDto;
 import cooperation.bus.domain.service.BusService;
 import cooperation.bus.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,9 @@ import java.io.BufferedReader;
 @RequiredArgsConstructor
 public class SettingController {
 
+    @Value("{bus.route.list.key}")
+    String key;
+
     private final BusService busService;
 
     @GetMapping("setting")
@@ -53,7 +57,7 @@ public class SettingController {
 
     public String[][] busNumber(String busNum) throws IOException, ParserConfigurationException, SAXException {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteList"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=SOLuYRh8xqz5eiyULHRGa7argcZ5hB4drsGC1LFh91Og5tZwMs4Jk34TctQelxAph%2BlwkFPoh%2F9oAcB0XM8PHQ%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + key); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("keyword", "UTF-8") + "=" + URLEncoder.encode(busNum, "UTF-8")); /*노선번호*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

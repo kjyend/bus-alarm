@@ -39,8 +39,6 @@ public class SettingController {
     @GetMapping("setting")
     public String setForm(@Login MemberDto loginMember, @RequestParam("busSearch") String busNumber, Model model) throws IOException, ParserConfigurationException, SAXException {
         //경기도_버스노선 조회- 노선번호목록조회
-        // bus와 member연동해서 member와 연동한 busnum값을 얻고 findBusNum를 통해서 미리 값을 얻는다.
-        //member값을 비교한다. 그런데 service에서 memberdto에서 member로 저장해야한다.
 
         String[][] busData = busNumber(busNumber);//노선목록을 쭉 세워두고 하나를 선택하게 한다.
         model.addAttribute("bus",busData);
@@ -77,17 +75,10 @@ public class SettingController {
         }
         rd.close();
         conn.disconnect();
-        System.out.println(sb.toString());
 
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-
-        //빌더 팩토리로부터 빌더 생성
         DocumentBuilder builder = builderFactory.newDocumentBuilder();
-
-        //빌더를 통해 xml 문서를 파싱해서 Document 객체로 가져온다.
         Document document = builder.parse(String.valueOf(url));
-
-        // 문서 구조 안정화
         document.getDocumentElement().normalize();
 
         NodeList nodeList = document.getElementsByTagName("busRouteList");

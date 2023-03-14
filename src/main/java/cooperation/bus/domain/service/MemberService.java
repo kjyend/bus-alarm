@@ -20,7 +20,4 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public void findLogin(String loginId){
-        memberRepository.findByLoginId(loginId);
-    }
 }

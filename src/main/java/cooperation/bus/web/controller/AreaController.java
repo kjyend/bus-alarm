@@ -76,11 +76,6 @@ public class AreaController {
         }
         AreaDto area = areaService.findArea(loginMember.getLoginId());
 
-        //startTime=null임, startstation이 갑자기 안낭온다.
-        //null값이 나온다면 다른 답으로 나오게 해야한다. ex) 버스 없음
-        //도착 역에서 시간을 받아야하는데 받을수 있다.
-        // 버스 번호 값을 추출하기 함
-
         model.addAttribute("busNumber", busNumber);
         model.addAttribute("startStation",area.getBusStationName());
         model.addAttribute("stopStation",area.getBusStopName());
@@ -127,16 +122,9 @@ public class AreaController {
         rd.close();
         conn.disconnect();
 
-        //빌더 팩토리 생성
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-
-        //빌더 팩토리로부터 빌더 생성
         DocumentBuilder builder = builderFactory.newDocumentBuilder();
-
-        //빌더를 통해 xml 문서를 파싱해서 Document 객체로 가져온다.
         Document document = builder.parse(String.valueOf(url));
-
-        // 문서 구조 안정화
         document.getDocumentElement().normalize();
 
         NodeList nodeList = document.getElementsByTagName("busArrivalList");

@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 @RequiredArgsConstructor
 public class BusController {
 
-    @Value("{bus.route.list.key}")
+    @Value("${bus.route.list.key}")
     String key;
 
     private final AreaService areaService;

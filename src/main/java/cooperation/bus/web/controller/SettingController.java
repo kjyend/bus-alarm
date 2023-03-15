@@ -31,7 +31,7 @@ import java.io.BufferedReader;
 @RequiredArgsConstructor
 public class SettingController {
 
-    @Value("{bus.route.list.key}")
+    @Value("${bus.route.list.key}")
     String key;
 
     private final BusService busService;

@@ -5,10 +5,13 @@ import cooperation.bus.domain.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+
 @Builder
 @Getter
 public class BusDto {
 
+    @NotBlank
     private String busNumber;//버스 번호(노선 번호)
     private String busNodeId;//버스 노선id
     private String busArea;//현재 버스위치
